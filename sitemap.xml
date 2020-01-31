@@ -3,87 +3,87 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>www.phvntom.tech/rep/rss-sdk/</loc>
+    <loc>/rep/rss-sdk/</loc>
     <lastmod>2020-01-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/xilinx-vc707/</loc>
+    <loc>/blog/xilinx-vc707/</loc>
     <lastmod>2020-01-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/inline-asm/</loc>
+    <loc>/blog/inline-asm/</loc>
     <lastmod>2019-12-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/hifive-unleashed/</loc>
+    <loc>/blog/hifive-unleashed/</loc>
     <lastmod>2019-11-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/spike-linux/</loc>
+    <loc>/blog/spike-linux/</loc>
     <lastmod>2019-11-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/spike/</loc>
+    <loc>/blog/spike/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/adv-gcc-skill/</loc>
+    <loc>/blog/adv-gcc-skill/</loc>
     <lastmod>2019-11-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/link-relax/</loc>
+    <loc>/blog/link-relax/</loc>
     <lastmod>2019-10-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/elf/</loc>
+    <loc>/blog/elf/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/git/</loc>
+    <loc>/blog/git/</loc>
     <lastmod>2019-10-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/make/</loc>
+    <loc>/blog/make/</loc>
     <lastmod>2019-10-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/</loc>
+    <loc>/</loc>
     <lastmod>2018-11-04T21:52:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/rep/</loc>
+    <loc>/rep/</loc>
     <lastmod>2017-07-02T08:15:25+07:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/work/</loc>
+    <loc>/work/</loc>
     <lastmod>2017-07-02T08:15:25+07:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/blog/</loc>
+    <loc>/blog/</loc>
     <lastmod>2017-07-02T08:14:51+07:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2017-06-24T18:57:12+07:00</lastmod>
   </url>
   
   <url>
-    <loc>www.phvntom.tech/tags/</loc>
+    <loc>/tags/</loc>
   </url>
   
 </urlset>
