@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>About Spike - Phvntom</title>
+
+		<meta name="description" content="Spike is a RISC-V ISA Simulator, which implements a functional model of one or more RISC-V processors. It is named after the golden spike used to celebrate the completion of the US transcontinental railway.
+Spike supports the following RISC-V ISA features:
+ RV32I and RV64I base ISAs, v2.1 Zifencei extension, v2.0 Zicsr extension, v2.0 M extension, v2.0 A extension, v2.0 F extension, v2.2 D extension, v2.2 Q extension, v2.2 C extension, v2.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/www.phvntom.tech/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="www.phvntom.tech/">Home</a></li><li><a href="www.phvntom.tech/blog/">Blog</a></li><li><a href="www.phvntom.tech/work">Work</a></li><li><a href="www.phvntom.tech/rep">Rep</a></li><li><a href="www.phvntom.tech/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>About Spike</h1>
+	<h5>
+		
+		<time datetime="2019-11-08 00:00:00 &#43;0000 UTC">Nov 08, 2019</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<p>Spike is a RISC-V ISA Simulator, which implements a functional model of one or more RISC-V processors. It is named after the golden spike used to celebrate the completion of the US transcontinental railway.</p>
+<p>Spike supports the following RISC-V ISA features:</p>
+<ul>
+<li>RV32I and RV64I base ISAs, v2.1</li>
+<li>Zifencei extension, v2.0</li>
+<li>Zicsr extension, v2.0</li>
+<li>M extension, v2.0</li>
+<li>A extension, v2.0</li>
+<li>F extension, v2.2</li>
+<li>D extension, v2.2</li>
+<li>Q extension, v2.2</li>
+<li>C extension, v2.0</li>
+<li>V extension, v0.7.1 (<em>requires a 64-bit host</em>)</li>
+<li>Conformance to both RVWMO and RVTSO (Spike is sequentially consistent)</li>
+<li>Machine, Supervisor, and User modes, v1.11</li>
+<li>Debug v0.14</li>
+</ul>
+<h2 id="build--install-risc-v-cross-compiler">Build &amp; install RISC-V cross-compiler</h2>
+<p>Spike is a submodule is <a href="https://github.com/riscv/riscv-tools">riscv-tools</a>, a number of cross-compilation tools are provided in the riscv-tools:</p>
+<ul>
+<li><del><code>riscv-fesvr</code>: The front-end server that serves system calls on the host machine.</del>[Move in riscv-isa-sim]</li>
+<li><del><code>riscv-gnu-toolchain</code>: The GNU GCC cross-compiler for RISC-V ISA.</del></li>
+<li><code>riscv-isa-sim</code>: The RISC-V ISA simulator (Spike)</li>
+<li><code>riscv-pk</code>: The proxy kernel that serves system calls on target machine.</li>
+<li><code>riscv-opcodes</code>: the enumeration of all RISC-V opcodes executable by the simulator</li>
+<li><code>riscv-tests</code>: a battery of ISA-level tests</li>
+</ul>
+<p>To use the spike you need to build the whole RISC-V toolchain, since the submodule repository <em><strong>riscv-gnu-toolchain</strong></em> has been removed from  the original repository <em><strong>riscv-tools</strong></em>, make sure you have riscvXX-unknown-elf-gcc before the following.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev  <span class="c1"># for Ubuntu</span>
+$ <span class="nb">cd</span> <span class="nv">$TOP</span>/riscv-tools
+$ git submodule update --init --recursive
+$ <span class="nb">export</span> <span class="nv">RISCV</span><span class="o">=</span>/path/to/install/riscv/toolchain
+$ ./build.sh
+</code></pre></div><h2 id="compiling-and-running-a-simple-c-program">Compiling and Running a Simple C Program</h2>
+<p>Install spike (see Build Steps), riscv-gnu-toolchain, and riscv-pk.</p>
+<p>Write a short C program and name it hello.c. Then, compile it into a RISC-V ELF binary named hello:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ riscv64-unknown-elf-gcc -o hello hello.c
+</code></pre></div><p>Now you can simulate the program atop the proxy kernel:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ spike pk hello
+</code></pre></div><h2 id="interactive-debug-mode">Interactive Debug Mode</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ spike -h             
+Spike RISC-V ISA Simulator 1.0.0
+
+usage: spike <span class="o">[</span>host options<span class="o">]</span> &lt;target program&gt; <span class="o">[</span>target options<span class="o">]</span>
+Host Options:
+  -p&lt;n&gt;                 Simulate &lt;n&gt; processors <span class="o">[</span>default 1<span class="o">]</span>
+  -m&lt;n&gt;                 Provide &lt;n&gt; MiB of target memory <span class="o">[</span>default 2048<span class="o">]</span>
+  -m&lt;a:m,b:n,...&gt;       Provide memory regions of size m and n bytes
+                          at base addresses a and b <span class="o">(</span>with <span class="m">4</span> KiB alignment<span class="o">)</span>
+  -d                    Interactive debug mode
+  -g                    Track histogram of PCs
+  -l                    Generate a log of execution
+  -h, --help            Print this <span class="nb">help</span> message
+  -H                    Start halted, allowing a debugger to connect
+  --isa<span class="o">=</span>&lt;name&gt;          RISC-V ISA string <span class="o">[</span>default RV64IMAFDC<span class="o">]</span>
+  --pc<span class="o">=</span>&lt;address&gt;        Override ELF entry point
+  --hartids<span class="o">=</span>&lt;a,b,...&gt;   Explicitly specify hartids, default is 0,1,...
+  --ic<span class="o">=</span>&lt;S&gt;:&lt;W&gt;:&lt;B&gt;      Instantiate a cache model with S sets,
+  --dc<span class="o">=</span>&lt;S&gt;:&lt;W&gt;:&lt;B&gt;        W ways, and B-byte blocks <span class="o">(</span>with S and
+  --l2<span class="o">=</span>&lt;S&gt;:&lt;W&gt;:&lt;B&gt;        B both powers of 2<span class="o">)</span>.
+  --log-cache-miss      Generate a log of cache miss
+  --extension<span class="o">=</span>&lt;name&gt;    Specify RoCC Extension
+  --extlib<span class="o">=</span>&lt;name&gt;       Shared library to load
+  --rbb-port<span class="o">=</span>&lt;port&gt;     Listen on &lt;port&gt; <span class="k">for</span> remote bitbang connection
+  --dump-dts            Print device tree string and <span class="nb">exit</span>
+  --disable-dtb         Don<span class="err">&#39;</span>t write the device tree blob into memory
+  --progsize<span class="o">=</span>&lt;words&gt;    Progsize <span class="k">for</span> the debug module <span class="o">[</span>default 2<span class="o">]</span>
+  --debug-sba<span class="o">=</span>&lt;bits&gt;    Debug bus master supports up to &lt;bits&gt; wide accesses <span class="o">[</span>default 0<span class="o">]</span>
+  --debug-auth          Debug module requires debugger to authenticate
+  --dmi-rti<span class="o">=</span>&lt;n&gt;         Number of Run-Test/Idle cycles required <span class="k">for</span> a DMI access <span class="o">[</span>default 0<span class="o">]</span>
+  --abstract-rti<span class="o">=</span>&lt;n&gt;    Number of Run-Test/Idle cycles required <span class="k">for</span> an abstract <span class="nb">command</span> to execute <span class="o">[</span>default 0<span class="o">]</span>
+
+</code></pre></div><p>At any point during execution (even without -d), you can enter the interactive debug mode with <code>-</code>. To invoke interactive debug mode, launch spike with -d:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ spike -d pk hello
+</code></pre></div><p>To see the contents of an integer register (0 is for core 0) or a floating point register:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: reg <span class="m">0</span> a0
+: fregs <span class="m">0</span> ft0  <span class="c1"># single-precision</span>
+: fregd <span class="m">0</span> ft0  <span class="c1"># double-precision</span>
+</code></pre></div><p>To see the contents of a memory location:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: mem <span class="m">2020</span>    <span class="c1"># physical address in hex</span>
+: mem <span class="m">0</span> <span class="m">2020</span>  <span class="c1"># virtual address (0 for core 0)</span>
+</code></pre></div><p>You can advance by one instruction by pressing . You can also execute until a desired equality is reached:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: <span class="k">until</span> pc <span class="m">0</span> <span class="m">2020</span>                   <span class="o">(</span>stop when <span class="nv">pc</span><span class="o">=</span>2020<span class="o">)</span>
+: <span class="k">until</span> mem <span class="m">2020</span> 50a9907311096993   <span class="o">(</span>stop when mem<span class="o">[</span>2020<span class="o">]</span><span class="o">=</span>50a9907311096993<span class="o">)</span>
+</code></pre></div><p>Alternatively, you can execute as long as an equality is true:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: <span class="k">while</span> mem <span class="m">2020</span> 50a9907311096993
+</code></pre></div><p>You can continue execution indefinitely by:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: r
+</code></pre></div><p>To end the simulation from the debug prompt, press <code>-</code> or:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">: q
+</code></pre></div><h2 id="debugging-with-gdb">Debugging With gdb</h2>
+<p>An alternative to interactive debug mode is to attach using gdb. Because spike tries to be like real hardware, you also need OpenOCD to do that. OpenOCD doesn't currently know about address translation, so it's not possible to easily debug programs that are run under <code>pk</code>. We'll use the following test program:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ cat rot13.c 
+char text<span class="o">[</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&#34;Vafgehpgvba frgf jnag gb or serr!&#34;</span><span class="p">;</span>
+
+// Don<span class="s1">&#39;t use the stack, because sp isn&#39;</span>t <span class="nb">set</span> up.
+volatile int <span class="nb">wait</span> <span class="o">=</span> 1<span class="p">;</span>
+
+int main<span class="o">(</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="nb">wait</span><span class="o">)</span>
+        <span class="p">;</span>
+
+    // Doesn<span class="s1">&#39;t actually go on the stack, because there are lots of GPRs.
+</span><span class="s1">    int i = 0;
+</span><span class="s1">    while (text[i]) {
+</span><span class="s1">        char lower = text[i] | 32;
+</span><span class="s1">        if (lower &gt;= &#39;</span>a<span class="s1">&#39; &amp;&amp; lower &lt;= &#39;</span>m<span class="s1">&#39;)
+</span><span class="s1">            text[i] += 13;
+</span><span class="s1">        else if (lower &gt; &#39;</span>m<span class="s1">&#39; &amp;&amp; lower &lt;= &#39;</span>z<span class="err">&#39;</span><span class="o">)</span>
+            text<span class="o">[</span>i<span class="o">]</span> -<span class="o">=</span> 13<span class="p">;</span>
+        i++<span class="p">;</span>
+    <span class="o">}</span>
+
+<span class="k">done</span>:
+    <span class="k">while</span> <span class="o">(</span>!wait<span class="o">)</span>
+        <span class="p">;</span>
+<span class="o">}</span>
+$ cat spike.lds 
+OUTPUT_ARCH<span class="o">(</span> <span class="s2">&#34;riscv&#34;</span> <span class="o">)</span>
+
+SECTIONS
+<span class="o">{</span>
+  . <span class="o">=</span> 0x10010000<span class="p">;</span>
+  .text : <span class="o">{</span> *<span class="o">(</span>.text<span class="o">)</span> <span class="o">}</span>
+  .data : <span class="o">{</span> *<span class="o">(</span>.data<span class="o">)</span> <span class="o">}</span>
+<span class="o">}</span>
+$ riscv64-unknown-elf-gcc -g -Og -o rot13-64.o -c rot13.c
+$ riscv64-unknown-elf-gcc -g -Og -T spike.lds -nostartfiles -o rot13-64 rot13-64.o
+</code></pre></div><p>To debug this program, first run spike telling it to listen for OpenOCD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ spike --rbb-port<span class="o">=</span><span class="m">9824</span> -m0x10000000:0x20000 rot13-64
+Listening <span class="k">for</span> remote bitbang connection on port 9824.
+</code></pre></div><p>In a separate shell run OpenOCD with the appropriate configuration file:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ cat spike.cfg 
+interface remote_bitbang
+remote_bitbang_host localhost
+remote_bitbang_port <span class="m">9824</span>
+
+<span class="nb">set</span> _CHIPNAME riscv
+jtag newtap <span class="nv">$_CHIPNAME</span> cpu -irlen <span class="m">5</span> -expected-id 0x10e31913
+
+<span class="nb">set</span> _TARGETNAME <span class="nv">$_CHIPNAME</span>.cpu
+target create <span class="nv">$_TARGETNAME</span> riscv -chain-position <span class="nv">$_TARGETNAME</span>
+
+gdb_report_data_abort <span class="nb">enable</span>
+
+init
+halt
+$ openocd -f spike.cfg
+Open On-Chip Debugger 0.10.0-dev-00002-gc3b344d <span class="o">(</span>2017-06-08-12:14<span class="o">)</span>
+...
+riscv.cpu: target state: halted
+</code></pre></div><p>In yet another shell, start your gdb debug session:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tnewsome@compy-vm:~/SiFive/spike-test$ riscv64-unknown-elf-gdb rot13-64
+GNU gdb <span class="o">(</span>GDB<span class="o">)</span> 8.0.50.20170724-git
+Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2017</span> Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version <span class="m">3</span> or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type <span class="s2">&#34;show copying&#34;</span>
+and <span class="s2">&#34;show warranty&#34;</span> <span class="k">for</span> details.
+This GDB was configured as <span class="s2">&#34;--host=x86_64-pc-linux-gnu --target=riscv64-unknown-elf&#34;</span>.
+Type <span class="s2">&#34;show configuration&#34;</span> <span class="k">for</span> configuration details.
+For bug reporting instructions, please see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+For help, <span class="nb">type</span> <span class="s2">&#34;help&#34;</span>.
+Type <span class="s2">&#34;apropos word&#34;</span> to search <span class="k">for</span> commands related to <span class="s2">&#34;word&#34;</span>...
+Reading symbols from rot13-64...done.
+<span class="o">(</span>gdb<span class="o">)</span> target remote localhost:3333
+Remote debugging using localhost:3333
+0x0000000010010004 in main <span class="o">(</span><span class="o">)</span> at rot13.c:8
+8	    <span class="k">while</span> <span class="o">(</span><span class="nb">wait</span><span class="o">)</span>
+<span class="o">(</span>gdb<span class="o">)</span> print <span class="nb">wait</span>
+<span class="nv">$1</span> <span class="o">=</span> <span class="m">1</span>
+<span class="o">(</span>gdb<span class="o">)</span> print <span class="nv">wait</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">$2</span> <span class="o">=</span> <span class="m">0</span>
+<span class="o">(</span>gdb<span class="o">)</span> print text
+<span class="nv">$3</span> <span class="o">=</span> <span class="s2">&#34;Vafgehpgvba frgf jnag gb or serr!&#34;</span>
+<span class="o">(</span>gdb<span class="o">)</span> b <span class="k">done</span> 
+Breakpoint <span class="m">1</span> at 0x10010064: file rot13.c, line 22.
+<span class="o">(</span>gdb<span class="o">)</span> c
+Continuing.
+Disabling abstract <span class="nb">command</span> writes to CSRs.
+
+Breakpoint 1, main <span class="o">(</span><span class="o">)</span> at rot13.c:23
+23	    <span class="k">while</span> <span class="o">(</span>!wait<span class="o">)</span>
+<span class="o">(</span>gdb<span class="o">)</span> print <span class="nb">wait</span>
+<span class="nv">$4</span> <span class="o">=</span> <span class="m">0</span>
+<span class="o">(</span>gdb<span class="o">)</span> print text
+...
+</code></pre></div><h2 id="appendix-a-how-to-run-without-pk">Appendix A How to run without pk</h2>
+<p>Usually programs run in U mode, but programs can be compiled and run in M mode without pk:</p>
+<p>Compiling and simulating programs in different modes depends on different tool sets.</p>
+<ul>
+<li>
+<p>Bare metal mode</p>
+<p><code>riscv-gnu-toolchain</code>(newlib); <code>riscv-isa-sim</code>; <code>riscv-fesvr</code>.</p>
+</li>
+<li>
+<p>User mode</p>
+<p><code>riscv-gnu-toolchain</code>(newlib); <code>riscv-isa-sim</code>;  <code>riscv-pk</code>;</p>
+</li>
+</ul>
+<p>You can use the file from riscv-test</p>
+<p><img src="/doc-img/spike/bare.png" alt="bare"></p>
+<p>hello.c:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#</span><span class="cp">include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="cp">#</span><span class="cp">ifdef BARE_MODE</span><span class="cp">
+</span><span class="cp"></span><span class="k">extern</span> <span class="kt">void</span> <span class="nf">printstr</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="p">;</span>
+<span class="cp">#</span><span class="cp">endif</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+<span class="cp">#</span><span class="cp">ifdef BARE_MODE</span><span class="cp">
+</span><span class="cp"></span>  <span class="n">printstr</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;</span><span class="s">Hello World!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span><span class="p">;</span>   <span class="cm">/* printf is not available in bare-metal mode */</span>
+<span class="cp">#</span><span class="cp">else</span><span class="cp">
+</span><span class="cp"></span>  <span class="n">printf</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;</span><span class="s">Hello World!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span><span class="p">;</span>
+<span class="cp">#</span><span class="cp">endif</span><span class="cp">
+</span><span class="cp"></span><span class="p">}</span>
+</code></pre></div><p>And the makefile like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nf">default</span><span class="o">:</span> <span class="n">all</span>
+
+<span class="nv">RISCV_PREFIX</span><span class="o">=</span>riscv64-unknown-elf-
+<span class="nv">RISCV_GCC</span> <span class="o">=</span> <span class="k">$(</span>RISCV_PREFIX<span class="k">)</span>gcc
+<span class="nv">RISCV_LINUX_PREFIX</span><span class="o">=</span>riscv-linux-
+<span class="nv">RISCV_LINUX_GCC</span> <span class="o">=</span> <span class="k">$(</span>RISCV_LINUX_PREFIX<span class="k">)</span>gcc
+
+<span class="nv">RISCV_GCC_OPTS</span> <span class="o">=</span> -DPREALLOCATE<span class="o">=</span><span class="m">1</span> -mcmodel<span class="o">=</span>medany -static -std<span class="o">=</span>gnu99 -Os -ffast-math -fno-common 
+<span class="nv">RISCV_GCC_BARE_LNK_OPTS</span> <span class="o">=</span> -static -nostdlib -nostartfiles -lm -lgcc
+<span class="nv">RISCV_LINUX_GCC_OPTS</span> <span class="o">=</span> -I.. -O3 -static
+
+<span class="nf">hello.bare</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">bare</span>.<span class="n">o</span> <span class="n">syscalls</span>.<span class="n">o</span> <span class="n">crt</span>.<span class="n">o</span> 
+	<span class="k">$(</span>RISCV_GCC<span class="k">)</span> -mcmodel<span class="o">=</span>medany -T ./common/test.ld $^ -o <span class="nv">$@</span> <span class="k">$(</span>RISCV_GCC_BARE_LNK_OPTS<span class="k">)</span>
+
+<span class="nf">hello.bare.o</span><span class="o">:</span><span class="n">hello</span>.<span class="n">c</span>
+	<span class="k">$(</span>RISCV_GCC<span class="k">)</span> -static -DBARE_MODE <span class="k">$(</span>RISCV_GCC_OPTS<span class="k">)</span> -c $&lt; -o <span class="nv">$@</span>
+
+<span class="nf">syscalls.o</span><span class="o">:</span><span class="n">common</span>/<span class="n">syscalls</span>.<span class="n">c</span>
+	<span class="k">$(</span>RISCV_GCC<span class="k">)</span> -static -Icommon -Ienv <span class="k">$(</span>RISCV_GCC_OPTS<span class="k">)</span> -c $&lt; -o <span class="nv">$@</span>
+
+<span class="nf">crt.o</span><span class="o">:</span><span class="n">common</span>/<span class="n">crt</span>.<span class="n">S</span>
+	<span class="k">$(</span>RISCV_GCC<span class="k">)</span> -static -Icommon -Ienv <span class="k">$(</span>RISCV_GCC_OPTS<span class="k">)</span> -c $&lt; -o <span class="nv">$@</span>
+
+<span class="nf">hello.pk</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">c</span>
+	<span class="k">$(</span>RISCV_GCC<span class="k">)</span> <span class="k">$(</span>RISCV_GCC_OPTS<span class="k">)</span> $&lt; -o <span class="nv">$@</span>
+
+<span class="nf">all</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">bare</span> <span class="n">hello</span>.<span class="n">pk</span> 
+
+<span class="nf">clean</span><span class="o">:</span>
+	rm -fr *.o hello.bare hello.linux hello.pk
+</code></pre></div><h2 id="appendix-b-how-to-add-a-new-instruction--csr">Appendix B How to add a new instruction / CSR</h2>
+<ol>
+<li>
+<p>First we need to clone the newest version of opcodes from <a href="https://github.com/riscv/riscv-opcodes">here</a>, then replace the origin old one.</p>
+<p>Add our new instruction in ./opcodes:</p>
+<pre><code>pac     rd rs1 rs2 31..25=0  14..12=0 6..2=0x1A 1..0=3
+aut     rd rs1 rs2 31..25=1  14..12=0 6..2=0x1A 1..0=3
+</code></pre><p>Add our new instruction in ./parse_opcodes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Custom Supervisor R/W</span>
+<span class="p">(</span><span class="mh">0x5c0</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">pac_key_l</span><span class="s1">&#39;</span><span class="p">)</span><span class="p">,</span>
+<span class="p">(</span><span class="mh">0x5c1</span><span class="p">,</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">pac_key_h</span><span class="s1">&#39;</span><span class="p">)</span><span class="p">,</span>
+</code></pre></div><p>Then we generate the mask code, you may need to explicit declare to use python3 to execute.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ cat opcodes-pseudo opcodes opcodes-rvc opcodes-rvc-pseudo opcodes-custom opcodes-rvv opcodes-rvv-pseudo <span class="p">|</span> python3 ./parse_opcodes -c &gt; ./riscv-opc.h
+$ cp ./riscv-opc.h ../../riscv-gnu-toolchain/riscv-binutils/include/riscv-opc.h
+$ make -B install
+</code></pre></div></li>
+<li>
+<p>Add instruction in gcc in /riscv-gnu-toolchain/opcode/riscv-opc.c</p>
+<p><strong>Notice: Do not insert into a continuous sequence !</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="k">const</span> <span class="k">struct</span> <span class="n">riscv_opcode</span> <span class="n">riscv_opcodes</span><span class="p">[</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<span class="cm">/* name,     xlen, isa,   operands, match, mask, match_func, pinfo.  */</span>
+    <span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span>
+<span class="p">{</span><span class="sa"></span><span class="s">&#34;</span><span class="s">pac</span><span class="s">&#34;</span><span class="p">,</span>        <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="sa"></span><span class="s">&#34;</span><span class="s">I</span><span class="s">&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span><span class="p">,</span>   <span class="sa"></span><span class="s">&#34;</span><span class="s">d,s,t</span><span class="s">&#34;</span><span class="p">,</span>  <span class="n">MATCH_PAC</span><span class="p">,</span> <span class="n">MASK_PAC</span><span class="p">,</span> <span class="n">match_opcode</span><span class="p">,</span> <span class="mi">0</span> <span class="p">}</span><span class="p">,</span>
+<span class="p">{</span><span class="sa"></span><span class="s">&#34;</span><span class="s">aut</span><span class="s">&#34;</span><span class="p">,</span>        <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="sa"></span><span class="s">&#34;</span><span class="s">I</span><span class="s">&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span><span class="p">,</span>   <span class="sa"></span><span class="s">&#34;</span><span class="s">d,s,t</span><span class="s">&#34;</span><span class="p">,</span>  <span class="n">MATCH_AUT</span><span class="p">,</span> <span class="n">MASK_AUT</span><span class="p">,</span> <span class="n">match_opcode</span><span class="p">,</span> <span class="mi">0</span> <span class="p">}</span><span class="p">,</span>
+    <span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span><span class="p">.</span>
+</code></pre></div><p><strong>TODO:  Meaning of the parameters</strong></p>
+</li>
+<li>
+<p>Recompile riscv-gnu-toolchain, and we add new instructions successfully:</p>
+</li>
+</ol>
+<p><img src="/doc-img/spike/asm.png" alt="asm"></p>
+<ol start="4">
+<li>
+<p>Add instruction in Spike</p>
+<p>Create qarma.h/cc in riscv-isa-sim/riscv, pac.h aut.h in */insns.</p>
+<p>Add qarma.h to riscv_hdrs, cc to riscv_srcs, pac aut to riscv_insn_list in riscv.mk.in.</p>
+<p>Add qarma.h to decode.h inorder to use enc/dec function in pac/aut.</p>
+</li>
+<li>
+<p>Add CSR in Spike</p>
+<p>Add new csr in struct state_t in processor.h</p>
+<p>Write related function set_csr/get_csr in processor.cc</p>
+</li>
+<li>
+<p>Recompiler pk, Spike</p>
+</li>
+</ol>
+<p><img src="/doc-img/spike/run.png" alt="run"></p>
+<h2 id="appendix-c-why-riscv-gnu-toolchian-has-been-removed">Appendix C Why riscv-gnu-toolchian has been removed</h2>
+<p>When I modified the source code, I found that the encoding.h in /opcodes and /riscv-gnu-toolchain are different, I complained to the RISC-V Foundation about this problem, so you had the following conversation: <a href="https://github.com/riscv/riscv-binutils-gdb/commit/cfb7ab81ab9c36e83159bad05ea1e3088ea9f816">Discuss Link</a></p>
+<p>FSF (<em>Free Software Foundation</em>, I guess&hellip;)</p>
+<p><img src="/doc-img/spike/screenshot.png" alt="discuss"></p>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="www.phvntom.tech/blog/adv-gcc-skill/">
+		<img class="icon-text" src="/img/prev.svg"/>Advance GCC Skill for Kernel Programing [Todo]</a>
+
+
+	<a class="next-post" href="www.phvntom.tech/blog/spike-linux/">Boot Linux on Spike [NeedtoFill]<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="www.phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

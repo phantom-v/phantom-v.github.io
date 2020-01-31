@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Learning ELF - Phvntom</title>
+
+		<meta name="description" content="In computing, the Executable and Linkable Format (ELF, formerly called Extensible Linking Format) is a common standard file format for executables, object code, shared libraries, and core dumps.
+Unlike many proprietary executable file formats, ELF is very flexible and extensible, and it is not bound to any particular processor or Instruction set architecture|architecture. This has allowed it to be adopted by many different operating systems on many different platforms.
+ELF file layout Each ELF file is made up of one ELF header, followed by file data.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/www.phvntom.tech/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="www.phvntom.tech/">Home</a></li><li><a href="www.phvntom.tech/blog/">Blog</a></li><li><a href="www.phvntom.tech/work">Work</a></li><li><a href="www.phvntom.tech/rep">Rep</a></li><li><a href="www.phvntom.tech/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Learning ELF</h1>
+	<h5>
+		
+		<time datetime="2019-10-14 00:00:00 &#43;0000 UTC">Oct 14, 2019</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<p>In computing, the <strong>Executable and Linkable Format</strong> (<strong>ELF</strong>, formerly called <strong>Extensible Linking Format</strong>) is a common standard file format for executables, object code, shared libraries, and core dumps.</p>
+<p>Unlike many proprietary executable file formats, ELF is very flexible and extensible, and it is not bound to any particular processor or Instruction set architecture|architecture. This has allowed it to be adopted by many different operating systems on many different platforms.</p>
+<h3 id="elf-file-layout">ELF file layout</h3>
+<p>Each ELF file is made up of one <strong>ELF header</strong>, followed by file data. The file data can include:</p>
+<ul>
+<li><strong>Program header table</strong>, describing zero or more <strong>segments</strong></li>
+<li><strong>Section header table</strong>, describing zero or more <strong>sections</strong></li>
+<li>Data referred to by entries in the program header table, or the section header table</li>
+</ul>
+<p>The <strong>segments</strong> contain information that is necessary for <strong>runtime execution of the file</strong>, while <strong>sections</strong> contain important data for <strong>linking and relocation</strong>. Each byte in the entire file is taken by <strong>no more than one section at a time</strong>, but there can be orphan bytes, which are not covered by a section. In the normal case of a Unix executable <strong>one or more sections are enclosed in one segment</strong>.</p>
+<figure class="img-md">
+    <img src="/doc-img/elf/layout.png"
+         alt="layout"/> 
+</figure>
+
+<h3 id="elf-header">ELF Header</h3>
+<p>文件开始处是一个 ELF 头部(ELF Header), 用来描述整个文件的组织, 除了 ELF 头部表以外, 其他节区和段都没有规定的顺序.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">readelf -h vmlinux
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">elfhdr</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span>    <span class="n">e_ident</span><span class="p">[</span><span class="n">EI_NIDENT</span><span class="p">]</span><span class="p">;</span> <span class="cm">/* ELF Identification */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_type</span><span class="p">;</span>        <span class="cm">/* object file type */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_machine</span><span class="p">;</span>    <span class="cm">/* machine */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">e_version</span><span class="p">;</span>    <span class="cm">/* object file version */</span>
+    <span class="n">Elf32_Addr</span>    <span class="n">e_entry</span><span class="p">;</span>    <span class="cm">/* virtual entry point */</span>
+    <span class="n">Elf32_Off</span>    <span class="n">e_phoff</span><span class="p">;</span>    <span class="cm">/* program header table offset */</span>
+    <span class="n">Elf32_Off</span>    <span class="n">e_shoff</span><span class="p">;</span>    <span class="cm">/* section header table offset */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">e_flags</span><span class="p">;</span>    <span class="cm">/* processor-specific flags */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_ehsize</span><span class="p">;</span>    <span class="cm">/* ELF header size */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_phentsize</span><span class="p">;</span>    <span class="cm">/* program header entry size */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_phnum</span><span class="p">;</span>    <span class="cm">/* number of program header entries */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_shentsize</span><span class="p">;</span>    <span class="cm">/* section header entry size */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_shnum</span><span class="p">;</span>    <span class="cm">/* number of section header entries */</span>
+    <span class="n">Elf32_Half</span>    <span class="n">e_shstrndx</span><span class="p">;</span>    <span class="cm">/* section header table&#39;s &#34;section 
+</span><span class="cm">                       header string table&#34; entry offset */</span>
+<span class="p">}</span> <span class="n">Elf32_Ehdr</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span>    <span class="n">e_ident</span><span class="p">[</span><span class="n">EI_NIDENT</span><span class="p">]</span><span class="p">;</span>    <span class="cm">/* Id bytes */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_type</span><span class="p">;</span>            <span class="cm">/* file type */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_machine</span><span class="p">;</span>        <span class="cm">/* machine type */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">e_version</span><span class="p">;</span>        <span class="cm">/* version number */</span>
+    <span class="n">Elf64_Addr</span>    <span class="n">e_entry</span><span class="p">;</span>        <span class="cm">/* entry point */</span>
+    <span class="n">Elf64_Off</span>    <span class="n">e_phoff</span><span class="p">;</span>        <span class="cm">/* Program hdr offset */</span>
+    <span class="n">Elf64_Off</span>    <span class="n">e_shoff</span><span class="p">;</span>        <span class="cm">/* Section hdr offset */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">e_flags</span><span class="p">;</span>        <span class="cm">/* Processor flags */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_ehsize</span><span class="p">;</span>        <span class="cm">/* sizeof ehdr */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_phentsize</span><span class="p">;</span>        <span class="cm">/* Program header entry size */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_phnum</span><span class="p">;</span>        <span class="cm">/* Number of program headers */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_shentsize</span><span class="p">;</span>        <span class="cm">/* Section header entry size */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_shnum</span><span class="p">;</span>        <span class="cm">/* Number of section headers */</span>
+    <span class="n">Elf64_Quarter</span>    <span class="n">e_shstrndx</span><span class="p">;</span>        <span class="cm">/* String table index */</span>
+<span class="p">}</span> <span class="n">Elf64_Ehdr</span><span class="p">;</span>
+</code></pre></div><figure class="img-lg">
+    <img src="/doc-img/elf/header.png"
+         alt="elf-header"/> 
+</figure>
+
+<blockquote>
+<p>Magic number of ELF: 7f 45 4c 46
+Class: 02 -&gt; ELF64
+Data: 01 -&gt; 2's complement; little endian
+<strong>Entry point address: [e_entry]</strong> 0x8000 0000
+<strong>Start of program headers, Size of program headers, Number of program headers: **
+<strong>[e_phoff, e_phentsize, e_phnum]</strong>
+</strong>Start of section headers, Size of section headers, Number of section headers: **
+<strong>[e_shoff, e_shentsize, e_shnum]</strong>
+<strong>Section header string table index: [e_shstrndx]</strong> Index of string table in section table</p>
+</blockquote>
+<h3 id="program-header-table">Program Header Table</h3>
+<p>可执行文件或者共享目标文件的程序头部是一个结构数组, 每个结构描述了一个段或者系统准备程序执行所必需的其它信息. 目标文件的“段”包含一个或者多个“节区”, 也就是“段内容(Segment Contents)”.
+<strong>程序头部仅对于可执行文件和共享目标文件有意义</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">readelf -l vmlinux
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* Program Header */</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Elf32_Word</span>    <span class="n">p_type</span><span class="p">;</span>        <span class="cm">/* segment type */</span>
+    <span class="n">Elf32_Off</span>    <span class="n">p_offset</span><span class="p">;</span>    <span class="cm">/* segment offset */</span>
+    <span class="n">Elf32_Addr</span>    <span class="n">p_vaddr</span><span class="p">;</span>    <span class="cm">/* virtual address of segment */</span>
+    <span class="n">Elf32_Addr</span>    <span class="n">p_paddr</span><span class="p">;</span>    <span class="cm">/* physical address - ignored? */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">p_filesz</span><span class="p">;</span>    <span class="cm">/* number of bytes in file for seg. */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">p_memsz</span><span class="p">;</span>    <span class="cm">/* number of bytes in mem. for seg. */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">p_flags</span><span class="p">;</span>    <span class="cm">/* flags */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">p_align</span><span class="p">;</span>    <span class="cm">/* memory alignment */</span>
+<span class="p">}</span> <span class="n">Elf32_Phdr</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Elf64_Half</span>    <span class="n">p_type</span><span class="p">;</span>        <span class="cm">/* entry type */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">p_flags</span><span class="p">;</span>    <span class="cm">/* flags */</span>
+    <span class="n">Elf64_Off</span>    <span class="n">p_offset</span><span class="p">;</span>    <span class="cm">/* offset */</span>
+    <span class="n">Elf64_Addr</span>    <span class="n">p_vaddr</span><span class="p">;</span>    <span class="cm">/* virtual address */</span>
+    <span class="n">Elf64_Addr</span>    <span class="n">p_paddr</span><span class="p">;</span>    <span class="cm">/* physical address */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">p_filesz</span><span class="p">;</span>    <span class="cm">/* file size */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">p_memsz</span><span class="p">;</span>    <span class="cm">/* memory size */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">p_align</span><span class="p">;</span>    <span class="cm">/* memory &amp; file alignment */</span>
+<span class="p">}</span> <span class="n">Elf64_Phdr</span><span class="p">;</span>
+</code></pre></div><figure class="img-lg">
+    <img src="/doc-img/elf/pheader.png"
+         alt="program-header"/> 
+</figure>
+
+<blockquote>
+<ul>
+<li>p_type 此数组元素描述的段的类型，或者如何解释此数组元素的信息。具体如下图。</li>
+<li>p_offset 此成员给出从文件头到该段第一个字节的偏移。</li>
+<li>p_vaddr 此成员给出段的第一个字节将被放到内存中的虚拟地址。</li>
+<li>p_paddr 此成员仅用于与物理地址相关的系统中。因为 System V 忽略所有应用程序的物理地址信息，此字段对与可执行文件和共享目标文件而言具体内容是指定的。</li>
+<li>p_filesz 此成员给出段在文件映像中所占的字节数。可以为 0。</li>
+<li>p_memsz 此成员给出段在内存映像中占用的字节数。可以为 0。</li>
+<li>p_flags 此成员给出与段相关的标志。</li>
+<li>p_align 可加载的进程段的 p_vaddr 和 p_offset 取值必须合适，相对于对页面大小的取模而言。此成员给出段在文件中和内存中如何 对齐。数值 0 和 1 表示不需要对齐。否则 p_align 应该是个正整数，并且是 2 的幂次数，p_vaddr 和 p_offset 对 p_align 取模后应该相等。</li>
+</ul>
+</blockquote>
+<h3 id="section-header-table">Section Header Table</h3>
+<p>节区中包含目标文件中除了ELF 头部, 程序/节区头部表格外的所有信息, 满足以下条件:</p>
+<ol>
+<li>目标文件中的每个节区都有对应的节区头部描述它, 但有节区头部不意味着有节区;</li>
+<li>每个节区占用文件中一个连续字节区域(这个区域可能长度为 0);</li>
+<li>文件中的节区不能重叠, 不允许一个字节存在于两个节区中;</li>
+<li>目标文件中可能包含非活动空间(INACTIVE SPACE), 这些区域不属于任何头部和节区.</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">readelf -S vmlinux
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* Section Header */</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_name</span><span class="p">;</span>    <span class="cm">/* name - index into section header string table section */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_type</span><span class="p">;</span>    <span class="cm">/* type */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_flags</span><span class="p">;</span>    <span class="cm">/* flags */</span>
+    <span class="n">Elf32_Addr</span>    <span class="n">sh_addr</span><span class="p">;</span>    <span class="cm">/* address */</span>
+    <span class="n">Elf32_Off</span>    <span class="n">sh_offset</span><span class="p">;</span>    <span class="cm">/* file offset */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_size</span><span class="p">;</span>    <span class="cm">/* section size */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_link</span><span class="p">;</span>    <span class="cm">/* section header table index link */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_info</span><span class="p">;</span>    <span class="cm">/* extra information */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_addralign</span><span class="p">;</span>    <span class="cm">/* address alignment */</span>
+    <span class="n">Elf32_Word</span>    <span class="n">sh_entsize</span><span class="p">;</span>    <span class="cm">/* section entry size */</span>
+<span class="p">}</span> <span class="n">Elf32_Shdr</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Elf64_Half</span>    <span class="n">sh_name</span><span class="p">;</span>    <span class="cm">/* section name */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">sh_type</span><span class="p">;</span>    <span class="cm">/* section type */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">sh_flags</span><span class="p">;</span>    <span class="cm">/* section flags */</span>
+    <span class="n">Elf64_Addr</span>    <span class="n">sh_addr</span><span class="p">;</span>    <span class="cm">/* virtual address */</span>
+    <span class="n">Elf64_Off</span>    <span class="n">sh_offset</span><span class="p">;</span>    <span class="cm">/* file offset */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">sh_size</span><span class="p">;</span>    <span class="cm">/* section size */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">sh_link</span><span class="p">;</span>    <span class="cm">/* link to another */</span>
+    <span class="n">Elf64_Half</span>    <span class="n">sh_info</span><span class="p">;</span>    <span class="cm">/* misc info */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">sh_addralign</span><span class="p">;</span>    <span class="cm">/* memory alignment */</span>
+    <span class="n">Elf64_Xword</span>    <span class="n">sh_entsize</span><span class="p">;</span>    <span class="cm">/* table entry size */</span>
+<span class="p">}</span> <span class="n">Elf64_Shdr</span><span class="p">;</span>
+</code></pre></div><figure class="img-lg">
+    <img src="/doc-img/elf/sheader.png"
+         alt="section-header"/> 
+</figure>
+
+<blockquote>
+<ul>
+<li>
+<p>sh_name: 给出节区的名称, 是字符串表节区的索引;</p>
+</li>
+<li>
+<p>sh_type: 为节区的内容和语义进行分类;</p>
+<ul>
+<li>
+<p>SHT_NULL: 非活动</p>
+</li>
+<li>
+<p>SHT_PROGBITS: 包含程序定义的信息</p>
+</li>
+<li>
+<p>SHT_NOBITS: 此部分不占用程序空间</p>
+</li>
+<li>
+<p>SHT_SYMTAB: 符号表</p>
+</li>
+<li>
+<p>SHT_STRTAB: 字符串表</p>
+<p>&hellip;&hellip;</p>
+</li>
+</ul>
+</li>
+<li>
+<p>sh_flags: 定义节区中内容是否可以修改, 执行等信息</p>
+<ul>
+<li>SHF_WRITE: 节区包含进程执行过程中将可写的数据;</li>
+<li>SHF_ALLOC: 此节区在进程执行过程中占用内存;</li>
+<li>SHF_EXECINSTR: 节区包含可执行的机器指令;</li>
+</ul>
+</li>
+<li>
+<p>sh_link &amp; sh_info</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="特殊节区">特殊节区</h4>
+<ul>
+<li>以“.”开头的节区名称是系统保留的, 应用程序可以使用没有前缀的节区名称, 以避 免与系统节区冲突。</li>
+<li>目标文件格式允许人们定义非保留的节区</li>
+<li>目标文件中也可以包含多个名字相同的节区</li>
+<li>保留给处理器体系结构的节区名称一般构成为:处理器体系结构名称简写 + 节区
+名称</li>
+</ul>
+<p><img src="/doc-img/elf/com-section.png" alt="常见特殊节区"></p>
+<h4 id="reference">Reference</h4>
+<p><a href="https://segmentfault.com/a/1190000007103522">ELF文件格式分析</a></p>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="www.phvntom.tech/blog/git/">
+		<img class="icon-text" src="/img/prev.svg"/>Learning Git</a>
+
+
+	<a class="next-post" href="www.phvntom.tech/blog/link-relax/">Linker Relaxation<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="www.phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Advance GCC Skill for Kernel Programing [Todo] - Phvntom</title>
+
+		<meta name="description" content="_attribute_((noinline)) constant variable attribute __attribute__((noinline)) const int m = 1; The noinline variable attribute prevents the compiler from making any use of a constant data value for optimization purposes, without affecting its placement in the object.
+You can use this feature for patchable constants, that is, data that is later patched to a different value. It is an error to try to use such constants in a context where a constant value is required.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/www.phvntom.tech/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="www.phvntom.tech/">Home</a></li><li><a href="www.phvntom.tech/blog/">Blog</a></li><li><a href="www.phvntom.tech/work">Work</a></li><li><a href="www.phvntom.tech/rep">Rep</a></li><li><a href="www.phvntom.tech/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Advance GCC Skill for Kernel Programing [Todo]</h1>
+	<h5>
+		
+		<time datetime="2019-11-02 00:00:00 &#43;0000 UTC">Nov 02, 2019</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h3 id="__attribute__noinline-constant-variable-attribute">_<em>attribute</em>_((noinline)) constant variable attribute</h3>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">__attribute__</span><span class="p">(</span><span class="p">(</span><span class="n">noinline</span><span class="p">)</span><span class="p">)</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div><p>The <code>noinline</code> variable attribute prevents the compiler from making any use of a constant data value for optimization purposes, without affecting its placement in the object.</p>
+<p>You can use this feature for patchable constants, that is, data that is later patched to a different value. It is an error to try to use such constants in a context where a constant value is required. For example, an array dimension.</p>
+<h3 id="__attribute__noinline-function-attribute">_<em>attribute</em>_((noinline)) function attribute</h3>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">fn</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">__attribute__</span><span class="p">(</span><span class="p">(</span><span class="n">noinline</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">fn</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">42</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div><p>This function attribute suppresses the inlining of a function at the call points of the function. This function attribute is a GNU compiler extension that the ARM compiler supports. It has the <code>__declspec</code> equivalent <code>__declspec(noinline)</code> In GNU mode, if this attribute is applied to a type instead of a function, the result is a warning rather than an error.</p>
+<h3 id="__declspecnoinline">__declspec(noinline)</h3>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* Prevent y being used for optimization */</span>
+<span class="kr">__declspec</span><span class="p">(</span><span class="n">noinline</span><span class="p">)</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="cm">/* Suppress inlining of foo() wherever foo() is called */</span>
+<span class="kr">__declspec</span><span class="p">(</span><span class="n">noinline</span><span class="p">)</span> <span class="kt">int</span> <span class="n">foo</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="p">;</span>
+</code></pre></div><p>The <code>__declspec(noinline)</code> attribute suppresses the inlining of a function at the call points of the function.</p>
+<p><code>__declspec(noinline)</code> can also be applied to constant data, to prevent the compiler from using the value for optimization purposes, without affecting its placement in the object. This is a feature that can be used for patchable constants, that is, data that is later patched to a different value. It is an error to try to use such constants in a context where a constant value is required. For example, an array dimension.</p>
+<h4 id="note">Note:</h4>
+<p>This <code>__declspec</code> attribute has the function attribute equivalent <code>__attribute__((noinline))</code>.</p>
+<h3 id="-finstrument-functions-option">-finstrument-functions option</h3>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">__cyg_profile_func_enter</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="n">__attribute__</span><span class="p">(</span><span class="p">(</span><span class="n">no_instrument_function</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">__cyg_profile_func_exit</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>  <span class="n">__attribute__</span><span class="p">(</span><span class="p">(</span><span class="n">no_instrument_function</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">__cyg_profile_func_enter</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">asm</span> <span class="p">(</span><span class="sa"></span><span class="s">&#34;</span><span class="s">ebreak</span><span class="se">\n</span><span class="se">\t</span><span class="s">&#34;</span> <span class="o">:</span><span class="o">:</span> <span class="p">)</span><span class="p">;</span> <span class="p">}</span> 
+<span class="kt">void</span> <span class="nf">__cyg_profile_func_exit</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>  <span class="p">{</span> <span class="k">asm</span> <span class="p">(</span><span class="sa"></span><span class="s">&#34;</span><span class="s">ebreak</span><span class="se">\n</span><span class="se">\t</span><span class="s">&#34;</span> <span class="o">:</span><span class="o">:</span> <span class="p">)</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div><pre><code class="language-assembly" data-lang="assembly">000000000001018c &lt;main&gt;:
+   1018c:	7139                	addi	sp,sp,-64
+   1018e:	fc06                	sd	ra,56(sp)
+   10190:	f822                	sd	s0,48(sp)
+   10192:	f426                	sd	s1,40(sp)
+   10194:	f04a                	sd	s2,32(sp)
+   10196:	0080                	addi	s0,sp,64
+   10198:	8486                	mv	s1,ra
+   1019a:	87a6                	mv	a5,s1
+   1019c:	85be                	mv	a1,a5
+   1019e:	67c1                	lui	a5,0x10
+   101a0:	18c78513          	addi	a0,a5,396 # 1018c &lt;main&gt;
+   101a4:	fb9ff0ef          	jal	ra,1015c &lt;__cyg_profile_func_enter&gt;
+   101a8:	67f1                	lui	a5,0x1c
+   101aa:	fe87b783          	ld	a5,-24(a5) # 1bfe8 &lt;__clzdi2+0xe2&gt;
+   101ae:	fcf43c23          	sd	a5,-40(s0)
+</code></pre>
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="www.phvntom.tech/blog/link-relax/">
+		<img class="icon-text" src="/img/prev.svg"/>Linker Relaxation</a>
+
+
+	<a class="next-post" href="www.phvntom.tech/blog/spike/">About Spike<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="www.phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

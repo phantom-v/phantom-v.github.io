@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Xilinx Vc707 [NeedtoFill] - Phvntom</title>
+
+		<meta name="description" content="Requirement $ git clone https://github.com/sifive/freedom.git $ cd freedom $ git submodule update --init --recursive sudo apt update sudo apt upgrade sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev python wget sudo apt-get install default-jre # chisel echo &#34;deb https://dl.bintray.com/sbt/debian /&#34; | sudo tee -a /etc/apt/sources.list.d/sbt.list sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823 sudo apt-get update sudo apt-get install sbt sudo apt install scala # verilator sudo apt-get install git make autoconf g&#43;&#43; flex bison git clone http://git.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/www.phvntom.tech/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="www.phvntom.tech/">Home</a></li><li><a href="www.phvntom.tech/blog/">Blog</a></li><li><a href="www.phvntom.tech/work">Work</a></li><li><a href="www.phvntom.tech/rep">Rep</a></li><li><a href="www.phvntom.tech/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Xilinx Vc707 [NeedtoFill]</h1>
+	<h5>
+		
+		<time datetime="2020-01-16 00:00:00 &#43;0000 UTC">Jan 16, 2020</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<figure class="img-lg">
+    <img src="/doc-img/fpga/vc707.png"
+         alt="vc707"/> 
+</figure>
+
+<h2 id="requirement">Requirement</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sifive/freedom.git
+$ <span class="nb">cd</span> freedom
+$ git submodule update --init --recursive
+
+sudo apt update
+sudo apt upgrade
+sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev python wget
+sudo apt-get install default-jre
+
+<span class="c1"># chisel</span>
+<span class="nb">echo</span> <span class="s2">&#34;deb https://dl.bintray.com/sbt/debian /&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+sudo apt-get update
+sudo apt-get install sbt
+sudo apt install scala
+
+<span class="c1"># verilator</span>
+sudo apt-get install git make autoconf g++ flex bison
+git clone http://git.veripool.org/git/verilator
+<span class="nb">cd</span> verilator
+git checkout -b verilator_3_922 verilator_3_922
+<span class="nb">unset</span> VERILATOR_ROOT <span class="c1"># For bash, unsetenv for csh</span>
+autoconf <span class="c1"># To create ./configure script</span>
+./configure
+make -j <span class="sb">`</span>nproc<span class="sb">`</span>
+sudo make install
+
+<span class="c1"># other software</span>
+$ <span class="nb">export</span> <span class="nv">RISCV</span><span class="o">=</span>/path/to/tool-chain/without/<span class="s1">&#39;/bin&#39;</span>/in/the/end
+$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:/tools/Xilinx/Vivado/2016.4/bin
+
+<span class="c1"># if don&#39;t have vivado license</span>
+ifconfig -a
+<span class="c1"># make sure that the network interface name is `eth0`. If not, the Vivado cannot recognize the license from the NIC interface when it is similar to `enp0s25`.</span> 
+<span class="c1"># rename the network interface:</span>
+sudo vim /etc/default/grub
+<span class="c1"># add in the end: GRUB_CMDLINE_LINUX=&#34;net.ifnames=0 biosdevname=0&#34;</span>
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+sudo update-grub
+reboot
+</code></pre></div><h2 id="build">Build</h2>
+<h3 id="config-board">Config Board</h3>
+<p>The Makefile corresponding to the Freedom U500 VC707 FPGA Dev Kit is <code>Makefile.vc707-u500devkit</code> and it consists of two main targets:</p>
+<ul>
+<li><code>verilog</code>: to compile the Chisel source files and generate the Verilog files.</li>
+<li><code>mcs</code>: to create a Configuration Memory File (.mcs) that can be programmed
+onto an VC707 FPGA board.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">make -f Makefile.vc707-u500devkit verilog
+make -f Makefile.vc707-u500devkit mcs
+</code></pre></div><p>If you do not have PCI Express Gen1/2/3 FMC Module run following commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">make <span class="nv">MODEL</span><span class="o">=</span>VC707BaseShell -f Makefile.vc707-u500devkit verilog
+make <span class="nv">MODEL</span><span class="o">=</span>VC707BaseShell -f Makefile.vc707-u500devkit mcs
+</code></pre></div><p>These will place the files under <code>builds/vc707-u500devkit/obj</code>.</p>
+<p>Connect <strong>JTAG</strong> line to board, launch <strong>Vivado 2016.4</strong>:</p>
+<ol>
+<li>Open &ldquo;Hardware Manager&rdquo;</li>
+<li>Right click on the FPGA device and select “Add Configuration Memory Device&rdquo;</li>
+<li>Config</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">Option</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Part</td>
+<td align="center">mt28gu01gaax1e-bpi-x16</td>
+</tr>
+<tr>
+<td align="center">Manufacturer</td>
+<td align="center">Micron</td>
+</tr>
+<tr>
+<td align="center">Alias</td>
+<td align="center">28f00ag18f</td>
+</tr>
+<tr>
+<td align="center">Family</td>
+<td align="center">g18</td>
+</tr>
+<tr>
+<td align="center">Type</td>
+<td align="center">bpi</td>
+</tr>
+<tr>
+<td align="center">Density</td>
+<td align="center">1024</td>
+</tr>
+<tr>
+<td align="center">Width</td>
+<td align="center">x16</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>Click OK to “Do you want to program the configuration memory device now ?”</li>
+<li>Add <code>freedom-u500-vc707-0-1.mcs</code> and <code>freedom-u500-vc707-0-1.prm</code></li>
+<li>Select RS Pins = 25:24, and then OK</li>
+</ol>
+<h3 id="build-boot-sd-card">Build boot SD Card</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># In Freedom U SDK</span>
+sudo dd <span class="k">if</span><span class="o">=</span>work/bbl.bin <span class="nv">of</span><span class="o">=</span>/dev/sdb  <span class="nv">bs</span><span class="o">=</span>1M 
+
+<span class="c1"># Do not use</span> 
+<span class="c1"># sudo make DISK=/dev/sdb format-boot-loader</span> 
+<span class="c1"># cause not support second partition</span>
+
+<span class="c1"># Tips: make SD card file system</span>
+sudo mkfs.vfat -F <span class="m">32</span> /dev/sdb
+sudo mkfs.ext4 /dev/sdb 
+</code></pre></div><h3 id="3-boot-log">3 Boot Log</h3>
+<h3 id="about-ethernet">About Ethernet</h3>
+<p><img src="/doc-img/fpga/discuss.png" alt="discuss"></p>
+<figure class="img-lg">
+    <img src="/doc-img/fpga/demo.png"
+         alt="sifive demo"/> 
+</figure>
+
+<h4 id="reference">Reference</h4>
+<ul>
+<li><a href="https://forums.sifive.com/t/how-to-run-program-in-freedom-u-sdk-linux-on-vc707/2546/7">https://forums.sifive.com/t/how-to-run-program-in-freedom-u-sdk-linux-on-vc707/2546/7</a></li>
+<li><a href="https://forums.sifive.com/t/the-network-of-vc707-not-available-after-loading-the-version-without-pcie-card/2930">https://forums.sifive.com/t/the-network-of-vc707-not-available-after-loading-the-version-without-pcie-card/2930</a></li>
+</ul>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="www.phvntom.tech/blog/inline-asm/">
+		<img class="icon-text" src="/img/prev.svg"/>GNU InLine Assembly </a>
+
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="www.phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

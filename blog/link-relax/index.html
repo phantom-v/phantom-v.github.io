@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Linker Relaxation - Phvntom</title>
+
+		<meta name="description" content="Registers Assembler mnemonics for RISC-V integer and floating-point registers.
+   Register ABI Name Description Caller/Callee     x0 zero Hard-wired zero    x1 ra Return address Caller   x2 sp Stack pointer Callee   x3 gp Global pointer    x4 tp Thread pointer    x5 t0 Temporary/alternate link register Caller   x6–x7 t1-t2 Temporaries Caller   x8 s0/fp Saved register/frame pointer Callee   x9 s1 Saved register Callee   x10–x11 a0-a1 Function arguments/return values Caller   x12–x17 a2-a7 Function arguments Caller   x18–x27 s2-s11 Saved registers Callee   x28–x31 t3-t6 Temporaries Caller         f0–f7 ft0-ft7 FP temporaries Caller   f8–f9 fs0-fs1 FP saved registers Callee   f10–f11 fa0-fa1 FP arguments/return values Caller   f12–f17 fa2-fa7 FP arguments Caller   f18–f27 fs2-fs11 FP saved registers Callee   f28–f31 ft8-ft11 FP temporaries Caller    Tips: how to print the preprocessor macros ?">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/www.phvntom.tech/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="www.phvntom.tech/">Home</a></li><li><a href="www.phvntom.tech/blog/">Blog</a></li><li><a href="www.phvntom.tech/work">Work</a></li><li><a href="www.phvntom.tech/rep">Rep</a></li><li><a href="www.phvntom.tech/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Linker Relaxation</h1>
+	<h5>
+		
+		<time datetime="2019-10-22 00:00:00 &#43;0000 UTC">Oct 22, 2019</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h2 id="registers">Registers</h2>
+<p>Assembler mnemonics for RISC-V integer and floating-point registers.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Register</th>
+<th align="left">ABI Name</th>
+<th align="left">Description</th>
+<th>Caller/Callee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">x0</td>
+<td align="left">zero</td>
+<td align="left">Hard-wired zero</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">x1</td>
+<td align="left">ra</td>
+<td align="left">Return address</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">x2</td>
+<td align="left">sp</td>
+<td align="left">Stack pointer</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">x3</td>
+<td align="left">gp</td>
+<td align="left">Global pointer</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">x4</td>
+<td align="left">tp</td>
+<td align="left">Thread pointer</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">x5</td>
+<td align="left">t0</td>
+<td align="left">Temporary/alternate link register</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">x6–x7</td>
+<td align="left">t1-t2</td>
+<td align="left">Temporaries</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">x8</td>
+<td align="left">s0/fp</td>
+<td align="left">Saved register/frame pointer</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">x9</td>
+<td align="left">s1</td>
+<td align="left">Saved register</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">x10–x11</td>
+<td align="left">a0-a1</td>
+<td align="left">Function arguments/return values</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">x12–x17</td>
+<td align="left">a2-a7</td>
+<td align="left">Function arguments</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">x18–x27</td>
+<td align="left">s2-s11</td>
+<td align="left">Saved registers</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">x28–x31</td>
+<td align="left">t3-t6</td>
+<td align="left">Temporaries</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td></td>
+</tr>
+<tr>
+<td align="left">f0–f7</td>
+<td align="left">ft0-ft7</td>
+<td align="left">FP temporaries</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">f8–f9</td>
+<td align="left">fs0-fs1</td>
+<td align="left">FP saved registers</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">f10–f11</td>
+<td align="left">fa0-fa1</td>
+<td align="left">FP arguments/return values</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">f12–f17</td>
+<td align="left">fa2-fa7</td>
+<td align="left">FP arguments</td>
+<td>Caller</td>
+</tr>
+<tr>
+<td align="left">f18–f27</td>
+<td align="left">fs2-fs11</td>
+<td align="left">FP saved registers</td>
+<td>Callee</td>
+</tr>
+<tr>
+<td align="left">f28–f31</td>
+<td align="left">ft8-ft11</td>
+<td align="left">FP temporaries</td>
+<td>Caller</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tips</strong>: <em><strong>how to print the preprocessor macros ?</strong></em></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ riscv64-unknown-elf-gcc -march<span class="o">=</span>rv64imac -mabi<span class="o">=</span>lp64 -E -dM - &lt; /dev/null <span class="p">|</span> egrep -i <span class="s1">&#39;risc|fp[^-]|version|abi|lp&#39;</span> <span class="p">|</span> sort  <span class="c1"># show the preprocessor macros</span>
+</code></pre></div><p><img src="/doc-img/link-relax/gcc-macro.png" alt="preprocessor macros"></p>
+<h2 id="linker-relaxation">Linker Relaxation</h2>
+<p><strong>Linker relaxation</strong> is a concept that it has greatly shaped the design of the RISC-V ISA. <strong>Linker relaxation</strong> is a mechanism for optimizing programs at link-time, as opposed to traditional program optimization which happens at compile-time.</p>
+<p>In order to understand relaxation, we first must examine the RISC-V ISA a bit. In the RISC-V ISA there are two unconditional control transfer instructions: <code>jalr</code>, which <strong>jumps to an absolute address as specified by an immediate offset from a register</strong>; and <code>jal</code>, which <strong>jumps to a pc-relative offset as specified by an immediate</strong>. The only differences between the <code>auipc</code>+<code>jalr</code> pair and a single <code>jal</code> are that the pair can address a 32-bit signed offset from the current PC while the <code>jal</code> can only address a 21-bit signed offset from the current PC, and that the <code>jal</code> instruction is half the size (which is a good proxy for twice the speed).</p>
+<figure class="img-lg">
+    <img src="/doc-img/link-relax/opcode.png"
+         alt="opcode"/> 
+</figure>
+
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ cat test.c 
+int func<span class="o">(</span>int a<span class="o">)</span> __attribute__<span class="o">(</span><span class="o">(</span>noinline<span class="o">)</span><span class="o">)</span><span class="p">;</span> 
+int func<span class="o">(</span>int a<span class="o">)</span> <span class="o">{</span> <span class="k">return</span> a + 1<span class="p">;</span> <span class="o">}</span> 
+int _start<span class="o">(</span>int a<span class="o">)</span> <span class="o">{</span> <span class="k">return</span> func<span class="o">(</span>a<span class="o">)</span><span class="p">;</span> <span class="o">}</span>
+</code></pre></div><p>As the compiler cannot know if the offset between <code>_start</code> and <code>func</code> will fit within a 21-bit offset, it is forced to generate the longer call. We don't want to impose this cost in cases where it's not necessary, so we instead optimize this case in the linker. Let's look at the executable to see the result of linker relaxation:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ riscv64-unknown-linux-gnu-objdump -d -r <span class="nb">test</span>
+test:     file format elf64-littleriscv
+
+Disassembly of section .text:
+
+<span class="m">0000000000010078</span> &lt;func&gt;:
+   10078:       <span class="m">2505</span>                    addiw   a0,a0,1
+   1007a:       <span class="m">8082</span>                    ret
+
+000000000001007c &lt;_start&gt;:
+   1007c:       ffdff06f                j       <span class="m">10078</span> &lt;func&gt;
+</code></pre></div><p>As you can see, the linker knows that the call from <code>_start</code> to <code>func</code> fits within the 21-bit offset of the <code>jal</code> instruction and converts it to a single instruction.</p>
+<h3 id="relaxing-against-the-global-pointer">Relaxing Against the Global Pointer</h3>
+<p>It may seem like linker relaxation involves a huge amount of complexity for a small gain: we trade knowing no <code>.text</code> section symbol addresses until link time for shortening a few sequences by a single instruction.</p>
+<p>Let's take a look at the Dhrystone source code first, the code performs three accesses to global variables in order to do a simple comparison and a logical operation.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* Global Variables: */</span>
+<span class="kt">bool</span>            <span class="n">Bool_Glob</span><span class="p">;</span>
+<span class="kt">char</span>            <span class="n">Ch_1_Glob</span><span class="p">,</span> <span class="n">Ch_2_Glob</span><span class="p">;</span>
+
+<span class="n">Proc_4</span> <span class="p">(</span><span class="p">)</span> <span class="cm">/* without parameters */</span>
+<span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">Bool_Loc</span><span class="p">;</span>
+  <span class="n">Bool_Loc</span> <span class="o">=</span> <span class="n">Ch_1_Glob</span> <span class="o">=</span><span class="o">=</span> <span class="sa"></span><span class="sc">&#39;</span><span class="sc">A</span><span class="sc">&#39;</span><span class="p">;</span>
+  <span class="n">Bool_Glob</span> <span class="o">=</span> <span class="n">Bool_Loc</span> <span class="o">|</span> <span class="n">Bool_Glob</span><span class="p">;</span>
+  <span class="n">Ch_2_Glob</span> <span class="o">=</span> <span class="sa"></span><span class="sc">&#39;</span><span class="sc">B</span><span class="sc">&#39;</span><span class="p">;</span>
+<span class="p">}</span> <span class="cm">/* Proc_4 */</span>
+</code></pre></div><p>In order to understand the specific relaxation that's being performed in this case, it's probably best to start with the code the toolchain generates before this optimization, which I've copied below:</p>
+<pre><code class="language-assembly" data-lang="assembly">0000000040400826 &lt;Proc_4&gt;:
+    40400826:   3fc00797                auipc   a5,0x3fc00
+    4040082a:   f777c783                lbu     a5,-137(a5) # 8000079d &lt;Ch_1_Glob&gt;
+    4040082e:   3fc00717                auipc   a4,0x3fc00
+    40400832:   f7272703                lw      a4,-142(a4) # 800007a0 &lt;Bool_Glob&gt;
+    40400836:   fbf78793                addi    a5,a5,-65
+    4040083a:   0017b793                seqz    a5,a5
+    4040083e:   8fd9                    or      a5,a5,a4
+    40400840:   3fc00717                auipc   a4,0x3fc00
+    40400844:   f6f72023                sw      a5,-160(a4) # 800007a0 &lt;Bool_Glob&gt;
+    40400848:   3fc00797                auipc   a5,0x3fc00
+    4040084c:   04200713                li      a4,66
+    40400850:   f4e78a23                sb      a4,-172(a5) # 8000079c &lt;Ch_2_Glob&gt;
+    40400854:   8082                    ret
+</code></pre><p>As you can see, this function consists of 13 instructions, 4 of which are <code>auipc</code> instructions. All of these <code>auipc</code> instructions are used to calculate the addresses of global variables for a subsequent memory access, and all of these generated addresses are within a 12-bit offset of each other. If you're thinking &ldquo;we only really need one of these <code>auipc</code> instructions&rdquo;, you're both right and wrong: while we could generate a single <code>auipc</code> (though that requires some GCC work we haven't done yet and is thus the subject of a future blog post), we can actually do one better and get by with <em>zero</em> <code>auipc</code> instructions!</p>
+<p>If you've just gone and pored over the RISC-V ISA manual to find an instruction that loads <code>Ch_1_Glob</code> (which lives at <code>0x8000079D</code>) in a single instruction then you should give up now, as there isn't one. There is, of course, a trick &ndash; it is common on register-rich, addressing-mode-poor ISAs to have a dedicated ABI register known as the global pointer that contains an address in the <code>.data</code> segment. <strong>The <code>gp</code> (Global Pointer) register is a solution to further optimise memory accesses within a single 4KB region(12-bit signed offset).</strong></p>
+<p>In order to get a bit more visibility into how this works, let's take a look at a snippet of GCC's default linker script for RISC-V:</p>
+<pre><code class="language-assembly" data-lang="assembly">/* We want the small data sections together, so single-instruction offsets
+   can access them all, and initialized data all before uninitialized, so
+   we can shorten the on-disk segment size.  */
+.sdata          :
+{
+  __global_pointer$ = . + 0x800;   // 0x800 = 4K(0x100) / 2
+  *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
+  *(.sdata .sdata.* .gnu.linkonce.s.*)
+}
+_edata = .; PROVIDE (edata = .);
+. = .;
+__bss_start = .;
+.sbss           :
+{
+  *(.dynsbss)
+  *(.sbss .sbss.* .gnu.linkonce.sb.*)
+  *(.scommon)
+</code></pre><p>As you can see, the magic <code>__global_pointer$</code> symbol is defined to point <code>0x800</code> bytes past the start of the <code>.sdata</code> section. The <code>0x800</code> magic number allows signed 12-bit offsets from <code>__global_pointer$</code> to address symbols at the start of the <code>.sdata</code> section. The linker assumes that if this symbol is defined, then the <code>gp</code> register contains that value, which it can then use to relax accesses to global symbols within that 12-bit range.</p>
+<p>The compiler treats the <code>gp</code> register as a constant so it doesn't need to be saved or restored, which means it is generally only written by <code>_start</code>, the ELF entry point. Here's an example from the RISC-V newlib port's <code>crt0.S</code> file:</p>
+<pre><code class="language-assembly" data-lang="assembly">.option push
+.option norelax
+# RV32
+1:auipc gp, %pcrel_hi(__global_pointer$)
+  addi  gp, gp, %pcrel_lo(1b)
+# RV64
+1: la gp, __global_pointer$
+.option pop
+</code></pre><p><strong>Note that we need to disable relaxations while setting <code>gp</code>, otherwise the linker would relax this two-instruction sequence to <code>mv gp, gp</code></strong></p>
+<p>The linker uses the <code>__global_pointer$</code> symbol definition to compare the memory addresses and, if within range, it replaces absolute/pc-relative addressing with gp-relative addressing, which makes the code more efficient. <strong>This process is also called <em>relaxing</em>, and can be disabled by <code>-Wl,--no-relax</code>.</strong></p>
+<p>The <code>gp</code> register should be loaded during startup with the address of the <code>__global_pointer$</code> symbol and should not be changed later.</p>
+<pre><code class="language-assembly" data-lang="assembly">00000000400003f0 &lt;Proc_4&gt;:
+    400003f0:   8651c783                lbu     a5,-1947(gp) # 80001fbd &lt;Ch_1_Glob&gt;
+    400003f4:   8681a703                lw      a4,-1944(gp) # 80001fc0 &lt;Bool_Glob&gt;
+    400003f8:   fbf78793                addi    a5,a5,-65
+    400003fc:   0017b793                seqz    a5,a5
+    40000400:   00e7e7b3                or      a5,a5,a4
+    40000404:   86f1a423                sw      a5,-1944(gp) # 80001fc0 &lt;Bool_Glob&gt;
+    40000408:   04200713                li      a4,66
+    4000040c:   86e18223                sb      a4,-1948(gp) # 80001fbc &lt;Ch_2_Glob&gt;
+    40000410:   00008067                ret
+</code></pre><h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://www.sifive.com/blog/all-aboard-part-3-linker-relaxation-in-riscv-toolchain">https://www.sifive.com/blog/all-aboard-part-3-linker-relaxation-in-riscv-toolchain</a></li>
+<li><a href="http://www.rowleydownload.co.uk/arm/documentation/gnu/as/RISC_002dV_002dDirectives.html">http://www.rowleydownload.co.uk/arm/documentation/gnu/as/RISC_002dV_002dDirectives.html</a></li>
+</ul>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="www.phvntom.tech/blog/elf/">
+		<img class="icon-text" src="/img/prev.svg"/>Learning ELF</a>
+
+
+	<a class="next-post" href="www.phvntom.tech/blog/adv-gcc-skill/">Advance GCC Skill for Kernel Programing [Todo]<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="www.phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+
