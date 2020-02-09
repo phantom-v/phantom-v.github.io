@@ -127,5 +127,27 @@ Makefile的工作流程  默认的情况下, make会在当前目录下按顺序�
 edit : main.o kbd.o command.o display.o \ insert.o search.o files.o utils.o cc -o edit main.o kbd.o command.o display.o \  insert.o search.o files.o utils.o # cc == gcc, cc is used in Unix main.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/blog/scala-class/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/scala-class/</guid>
+      <description>Scala: Class vs Case Class What is Class Suppose we want to implement the addition of two rational numbers.
+def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
+A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/blog/scala-type/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/scala-type/</guid>
+      <description>Scala: Type Identifier When use your own abstract data structure, there is a noticeable difference:
+ We write x + y, if x and y are integers, but We write r.add(s) if r and s are rational numbers.  In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:
+ Alphanumeric: starting with a letter, followed by a sequence of letters or numbers Symbolic: starting with an operator symbol, followed by other operator symbols.</description>
+    </item>
+    
   </channel>
 </rss>

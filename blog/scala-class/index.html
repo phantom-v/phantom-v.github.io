@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title> - Phvntom</title>
+
+		<meta name="description" content="Scala: Class vs Case Class What is Class Suppose we want to implement the addition of two rational numbers.
+def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
+A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="/">Home</a></li><li><a href="/blog/">Blog</a></li><li><a href="/work">Work</a></li><li><a href="/rep">Rep</a></li><li><a href="/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1></h1>
+	<h5>
+		
+		<time datetime="0001-01-01 00:00:00 &#43;0000 UTC">Jan 01, 0001</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h1 id="scala-class-vs-case-class">Scala: Class vs Case Class</h1>
+<h2 id="what-is-class">What is Class</h2>
+<p>Suppose we want to implement the addition of two rational numbers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">addRationalNumerator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
+<span class="k">def</span> <span class="n">addRationalDenominator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
+</code></pre></div><p>It would be difficult to manage all these numerators and denominators!</p>
+<p>A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">numer</span> <span class="k">=</span> <span class="n">x</span>
+  <span class="k">def</span> <span class="n">denom</span> <span class="k">=</span> <span class="n">y</span>
+<span class="o">}</span>
+</code></pre></div><p>In Scala, a class implicitly introduces a constructor. This one is called <code>the primary constructor</code> of the class.</p>
+<ul>
+<li>takes the parameters of the class</li>
+<li>executes all statements in the class body (such as the require a couple of slides back).</li>
+</ul>
+<p>Scala also allows the declaration of auxiliary constructors.These are methods named <code>this</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="k">this</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">this</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="objects">OBJECTS</h3>
+<p>We call the elements of a class type objects.</p>
+<p>We create an object by prefixing an application of the constructor of the class with the operator <code>new</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">num</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span> 
+<span class="c1">// x: Rational = Rational@2abe0e27
+</span><span class="c1"></span><span class="n">num</span><span class="o">.</span><span class="n">numer</span> <span class="c1">// 1
+</span><span class="c1"></span><span class="n">num</span><span class="o">.</span><span class="n">x</span> 
+<span class="c1">// error: value x is not a member of Rational
+</span></code></pre></div><h3 id="methods">METHODS</h3>
+<p>One can go further and also package functions operating on a data abstraction in the data abstraction itself. Such functions are called methods.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="n">gcd</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">gcd</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="o">)</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="n">gcd</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">numer</span> <span class="k">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">g</span>
+  <span class="k">def</span> <span class="n">denom</span> <span class="k">=</span> <span class="n">y</span> <span class="o">/</span> <span class="n">g</span>
+  <span class="k">def</span> <span class="n">add</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Rational</span><span class="o">)</span> <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">numer</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">denom</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">numer</span> <span class="o">*</span> <span class="n">denom</span><span class="o">,</span> <span class="n">denom</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">denom</span><span class="o">)</span>
+  <span class="k">def</span> <span class="o">+</span> <span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Rational</span><span class="o">)</span> <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span> <span class="n">numer</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">denom</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">numer</span> <span class="o">*</span> <span class="n">denom</span><span class="o">,</span> <span class="n">denom</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">denom</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">less</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Rational</span><span class="o">)</span> <span class="k">=</span>
+  <span class="k">this</span><span class="o">.</span><span class="n">numer</span> <span class="o">*</span> <span class="n">that</span><span class="o">.</span><span class="n">denom</span> <span class="o">&lt;</span> <span class="n">that</span><span class="o">.</span><span class="n">numer</span> <span class="o">*</span> <span class="k">this</span><span class="o">.</span><span class="n">denom</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span> <span class="k">=</span> <span class="n">numer</span> <span class="o">+</span> <span class="s">&#34;/&#34;</span> <span class="o">+</span> <span class="n">denom</span>
+<span class="o">}</span>
+</code></pre></div><p>This can be advantageous if it is expected that the functions numer and denom are called infrequently.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="n">gcd</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="n">a</span> <span class="k">else</span> <span class="n">gcd</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">numer</span> <span class="k">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">gcd</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">denom</span> <span class="k">=</span> <span class="n">y</span> <span class="o">/</span> <span class="n">gcd</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><p>This can be advantageous if the functions numer and denom are called often.</p>
+<h3 id="preconditions">PRECONDITIONS</h3>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">precond</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">require</span><span class="o">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">,</span> <span class="s">&#34;[!]requirement failed&#34;</span><span class="o">)</span>
+  <span class="n">assert</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">,</span> <span class="s">&#34;[!]assertion failed&#34;</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">// Not Neccessary in Class
+</span></code></pre></div><p>Both require and assert false will also throw an exception, but it's a different one: <code>AssertionError</code> for assert, <code>IllegalArgumentException</code> for require. This reflects a difference in intent:<br>
+require is used to enforce a precondition on the caller of a function.
+assert is used as to check the code of the function itself.</p>
+<h3 id="abstract-classes">ABSTRACT CLASSES</h3>
+<p>Abstract classes can contain members which are missing an implementation (in our case, incl and contains).</p>
+<p>Consequently, no instances of an abstract class can be created with the operator new.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">abstract</span> <span class="k">class</span> <span class="nc">IntSet</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
+  <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">Empty</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Empty</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Empty</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">left</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">,</span> <span class="n">right</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">left</span> <span class="n">contains</span> <span class="n">x</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">right</span> <span class="n">contains</span> <span class="n">x</span>
+    <span class="k">else</span> <span class="kc">true</span>
+
+  <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span> <span class="n">incl</span> <span class="n">x</span><span class="o">,</span> <span class="n">right</span><span class="o">)</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span> <span class="n">incl</span> <span class="n">x</span><span class="o">)</span>
+    <span class="k">else</span> <span class="k">this</span>
+<span class="o">}</span>
+</code></pre></div><p><code>IntSet</code> is called the <strong>superclass</strong> of <code>Empty</code> and <code>NonEmpty</code>.</p>
+<p><code>Empty</code> and <code>NonEmpty</code> are <strong>subclasses</strong> of <code>IntSet</code>.</p>
+<p>In Scala, any user-defined class extends another class.</p>
+<p>If no superclass is given, the standard class <code>Object</code> in the Java package <code>java.lang</code> is assumed.</p>
+<p>The <strong>direct</strong> or <strong>indirect</strong> <strong>superclasses</strong> of a class C are called base classes of C.</p>
+<p><strong>So, the base classes of NonEmpty are IntSet and Object.</strong></p>
+<p>It may seem overkill to have the user create many instances of it, since there is really only a single empty IntSet. We can express this case better with an object definition:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Empty</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><p>No other Empty instances can be created. Singleton objects are values, so Empty <strong>evaluates to itself</strong>.</p>
+<h2 id="traits">TRAITS</h2>
+<p>In Scala, a class can only have one superclass. But what if a class has several natural supertypes to which it conforms or from which it wants to inherit code?</p>
+<p>A <code>trait</code> is declared like an abstract class, just with trait instead of abstract class.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Planar</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">height</span><span class="k">:</span> <span class="kt">Int</span>
+  <span class="k">def</span> <span class="n">width</span><span class="k">:</span> <span class="kt">Int</span>
+  <span class="k">def</span> <span class="n">surface</span> <span class="k">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
+<span class="o">}</span>
+</code></pre></div><p>Classes, objects and traits can inherit from at <code>most one class</code> but <code>arbitrary many traits</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Square</span> <span class="k">extends</span> <span class="nc">Shape</span> <span class="k">with</span> <span class="nc">Planar</span> <span class="k">with</span> <span class="nc">Movable</span> <span class="err">…</span>
+</code></pre></div><p><strong>On the other hand, traits cannot have (value) parameters, only classes can.</strong></p>
+<h2 id="equivalence">EQUIVALENCE</h2>
+<p>In Scala, two instance of a same class with same args are different.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="c1">// false
+</span><span class="c1"></span><span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="n">x</span>
+<span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="c1">// true
+</span></code></pre></div><h2 id="what-is-case-class">What is Case Class</h2>
+<p>Programs are systems that process information. Therefore, programming languages provide ways to model the domain of a program.</p>
+<p>We use a <em>note</em> model to aggregate several data and express this in Scala by using a case class definition:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">c3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">c3</span><span class="o">.</span><span class="n">name</span> <span class="c1">// C
+</span></code></pre></div><p>And we know that musical symbols can be either notes or rests (but nothing else). So, we want to introduce the concept of symbol, as something that can be embodied by a fixed set of alternatives: <em>a note or rest</em>. We can express this in Scala using a sealed trait definition:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">Symbol</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Symbol</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Rest</span><span class="o">(</span><span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Symbol</span>
+</code></pre></div><h3 id="pattern-matching">PATTERN MATCHING</h3>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">symbolDuration</span><span class="o">(</span><span class="n">symbol</span><span class="k">:</span> <span class="kt">Symbol</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
+  <span class="n">symbol</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">duration</span>
+    <span class="k">case</span> <span class="nc">Rest</span><span class="o">(</span><span class="n">duration</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">duration</span>
+  <span class="o">}</span>
+</code></pre></div><h3 id="equals">EQUALS</h3>
+<p>It is worth noting that, since the purpose of case classes is to aggregate values, comparing case class instances compares their values:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">c3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">otherC3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">f3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;F&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="o">(</span><span class="n">c3</span> <span class="o">==</span> <span class="n">otherC3</span><span class="o">)</span> <span class="c1">// true
+</span><span class="c1"></span><span class="o">(</span><span class="n">c3</span> <span class="o">==</span> <span class="n">f3</span><span class="o">)</span> <span class="c1">// true
+</span></code></pre></div><h3 id="enumerations">ENUMERATIONS</h3>
+<p>Our above definition of the Note type allows users to create instances with invalid names and durations:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">invalidNote</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;not a name&#34;</span><span class="o">,</span> <span class="s">&#34;not a duration&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</code></pre></div><p>If we want to restrict the space of the possible note names and durations to a set of fixed alternatives, we can express the fact that note names are a fixed set of alternatives by using a sealed trait, but in contrast to the previous example alternatives are not case classes because they aggregate no information:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">NoteName</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">A</span> <span class="k">extends</span> <span class="nc">NoteName</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">A</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">NoteName</span>
+<span class="c1">// error: traits or objects may not have parameters
+</span></code></pre></div><h2 id="relationship-between-classes-and-case-classes">Relationship between Classes and Case Classes</h2>
+<h3 id="creation-and-manipulation">CREATION AND MANIPULATION</h3>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">BankAccount</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">var</span> <span class="n">balance</span> <span class="k">=</span> <span class="mi">0</span>
+
+  <span class="k">def</span> <span class="n">deposit</span><span class="o">(</span><span class="n">amount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">balance</span> <span class="k">=</span> <span class="n">balance</span> <span class="o">+</span> <span class="n">amount</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">withdraw</span><span class="o">(</span><span class="n">amount</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">amount</span> <span class="o">&amp;&amp;</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="n">balance</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">balance</span> <span class="k">=</span> <span class="n">balance</span> <span class="o">-</span> <span class="n">amount</span>
+      <span class="n">balance</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">Error</span><span class="o">(</span><span class="s">&#34;insufficient funds&#34;</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">aliceAccount</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BankAccount</span>
+<span class="k">val</span> <span class="n">c3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">c3</span><span class="o">.</span><span class="n">name</span> <span class="c1">// C
+</span></code></pre></div><p>We see that creating a class instance requires the keyword new, whereas this is not required for case classes.</p>
+<p>Also, we see that the case class constructor parameters are promoted to members, whereas this is not the case with regular classes.</p>
+<h2 id="equality">EQUALITY</h2>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">aliceAccount</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BankAccount</span>
+<span class="k">val</span> <span class="n">bobAccount</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BankAccount</span>
+
+<span class="n">aliceAccount</span> <span class="o">==</span> <span class="n">bobAccount</span> <span class="c1">// false 
+</span><span class="c1"></span>
+
+<span class="k">val</span> <span class="n">c3</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">cThree</span> <span class="k">=</span> <span class="nc">Note</span><span class="o">(</span><span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;Quarter&#34;</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+
+<span class="n">c3</span> <span class="o">==</span> <span class="n">cThree</span> <span class="c1">// true 
+</span></code></pre></div><p>In the above example, the same definitions of bank accounts lead to different values, whereas the same definitions of notes lead to equal values.</p>
+<p>As we have seen in the previous sections, stateful classes introduce a notion of identity that does not exist in case classes. Indeed, the value of BankAccount can change over time whereas the value of a Note is immutable.</p>
+<p>In Scala, by default, comparing objects will compare their identity, but in the case of case class instances, the equality is redefined to compare the values of the aggregated information.</p>
+<h3 id="pattern-matching-1">PATTERN MATCHING</h3>
+<p>We saw how pattern matching can be used to extract information from a case class instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">c3</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">s&#34;</span><span class="s">The duration of c3 is </span><span class="si">$duration</span><span class="s">&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p>By default, pattern matching does not work with regular classes.</p>
+<h3 id="extensibility">EXTENSIBILITY</h3>
+<p>A class can extend another class, whereas a case class can not extend another case class (because it would not be possible to correctly implement their equality).</p>
+<h3 id="case-classes-encoding">CASE CLASSES ENCODING</h3>
+<p>We saw the main differences between classes and case classes.</p>
+<p>It turns out that case classes are just a special case of classes, whose purpose is to aggregate several values into a single value.</p>
+<p>The Scala language provides explicit support for this use case because it is very common in practice.</p>
+<p>So, when we define a case class, the Scala compiler defines a class enhanced with some more methods and a companion object.</p>
+<p>For instance, the following case class definition:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+</code></pre></div><p>Expands to the following class definition:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Note</span><span class="o">(</span><span class="nc">_name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="nc">_duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="nc">_octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Serializable</span> <span class="o">{</span>
+
+  <span class="c1">// Constructor parameters are promoted to members
+</span><span class="c1"></span>  <span class="k">val</span> <span class="n">name</span> <span class="k">=</span> <span class="nc">_name</span>
+  <span class="k">val</span> <span class="n">duration</span> <span class="k">=</span> <span class="nc">_duration</span>
+  <span class="k">val</span> <span class="n">octave</span> <span class="k">=</span> <span class="nc">_octave</span>
+
+  <span class="c1">// Equality redefinition
+</span><span class="c1"></span>  <span class="k">override</span> <span class="k">def</span> <span class="n">equals</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">other</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">that</span><span class="k">:</span> <span class="kt">Note</span> <span class="o">=&gt;</span>
+      <span class="o">(</span><span class="n">that</span> <span class="n">canEqual</span> <span class="k">this</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+        <span class="n">name</span> <span class="o">==</span> <span class="n">that</span><span class="o">.</span><span class="n">name</span> <span class="o">&amp;&amp;</span>
+        <span class="n">duration</span> <span class="o">==</span> <span class="n">that</span><span class="o">.</span><span class="n">duration</span> <span class="o">&amp;&amp;</span>
+        <span class="n">octave</span> <span class="o">==</span> <span class="n">that</span><span class="o">.</span><span class="n">octave</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">canEqual</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">Note</span><span class="o">]</span>
+
+  <span class="c1">// Java hashCode redefinition according to equality
+</span><span class="c1"></span>  <span class="k">override</span> <span class="k">def</span> <span class="n">hashCode</span><span class="o">(</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">state</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="o">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">hashCode</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span><span class="o">(</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="mi">31</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">// toString redefinition to return the value of an instance instead of its memory addres
+</span><span class="c1"></span>  <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span> <span class="k">=</span> <span class="s">s&#34;</span><span class="s">Note(</span><span class="si">$name</span><span class="s">,</span><span class="si">$duration</span><span class="s">,</span><span class="si">$octave</span><span class="s">)</span><span class="s">&#34;</span>
+
+  <span class="c1">// Create a copy of a case class, with potentially modified field values
+</span><span class="c1"></span>  <span class="k">def</span> <span class="n">copy</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">octave</span><span class="o">)</span><span class="k">:</span> <span class="kt">Note</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">Note</span> <span class="o">{</span>
+
+  <span class="c1">// Constructor that allows the omission of the `new` keyword
+</span><span class="c1"></span>  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Note</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">Note</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">duration</span><span class="o">,</span> <span class="n">octave</span><span class="o">)</span>
+
+  <span class="c1">// Extractor for pattern matching
+</span><span class="c1"></span>  <span class="k">def</span> <span class="n">unapply</span><span class="o">(</span><span class="n">note</span><span class="k">:</span> <span class="kt">Note</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="o">(</span><span class="kt">String</span>, <span class="kt">String</span>, <span class="kt">Int</span><span class="o">)</span><span class="o">]</span> <span class="k">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">note</span> <span class="n">eq</span> <span class="kc">null</span><span class="o">)</span> <span class="nc">None</span>
+    <span class="k">else</span> <span class="nc">Some</span><span class="o">(</span><span class="o">(</span><span class="n">note</span><span class="o">.</span><span class="n">name</span><span class="o">,</span> <span class="n">note</span><span class="o">.</span><span class="n">duration</span><span class="o">,</span> <span class="n">note</span><span class="o">.</span><span class="n">octave</span><span class="o">)</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="reference">Reference</h3>
+<ul>
+<li>
+<p><a href="https://www.scala-exercises.org/scala_tutorial/object_oriented_programming">https://www.scala-exercises.org/scala_tutorial/object_oriented_programming</a></p>
+</li>
+<li>
+<p><a href="https://www.scala-exercises.org/scala_tutorial/structuring_information">https://www.scala-exercises.org/scala_tutorial/structuring_information</a></p>
+</li>
+<li>
+<p><a href="https://www.scala-exercises.org/scala_tutorial/classes_vs_case_classes">https://www.scala-exercises.org/scala_tutorial/classes_vs_case_classes</a></p>
+</li>
+</ul>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="/blog/scala-type/">
+		<img class="icon-text" src="/img/prev.svg"/></a>
+
+
+	<a class="next-post" href="/blog/make/">Learning Make<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			
+			<a href="#top">
+				<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+				<span>Back to Up</span>
+			</a>
+			
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=56ynm161q1y&amp;m=7&amp;s=100&amp;c=ff3c00&amp;t=1" async="async"></script>
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

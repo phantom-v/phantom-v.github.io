@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title> - Phvntom</title>
+
+		<meta name="description" content="Scala: Type Identifier When use your own abstract data structure, there is a noticeable difference:
+ We write x &#43; y, if x and y are integers, but We write r.add(s) if r and s are rational numbers.  In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:
+ Alphanumeric: starting with a letter, followed by a sequence of letters or numbers Symbolic: starting with an operator symbol, followed by other operator symbols.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="/">Home</a></li><li><a href="/blog/">Blog</a></li><li><a href="/work">Work</a></li><li><a href="/rep">Rep</a></li><li><a href="/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1></h1>
+	<h5>
+		
+		<time datetime="0001-01-01 00:00:00 &#43;0000 UTC">Jan 01, 0001</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h1 id="scala-type">Scala: Type</h1>
+<h2 id="identifier">Identifier</h2>
+<p>When use your own abstract data structure, there is a noticeable difference:</p>
+<ul>
+<li>We write x + y, if x and y are integers, but</li>
+<li>We write r.add(s) if r and s are rational numbers.</li>
+</ul>
+<p>In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:</p>
+<ul>
+<li>Alphanumeric: starting with a letter, followed by a sequence of letters or numbers</li>
+<li>Symbolic: starting with an operator symbol, followed by other operator symbols.</li>
+<li>The underscore character &lsquo;_&rsquo; counts as a letter.</li>
+<li>Alphanumeric identifiers can also end in an underscore, followed by some operator symbols.</li>
+</ul>
+<p>Examples of identifiers:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">asc123</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="n">asc123_</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="n">asc_123</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="n">asc123_+</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="n">asc_+</span><span class="mi">123</span> <span class="k">=</span> <span class="mi">1</span> <span class="c1">// error
+</span><span class="c1"></span><span class="k">val</span> <span class="o">+-*/</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="o">+-*/</span><span class="n">xxx</span> <span class="k">=</span> <span class="mi">1</span> <span class="c1">// error
+</span><span class="c1"></span><span class="k">val</span> <span class="o">+-*/</span><span class="k">_</span> <span class="k">=</span> <span class="mi">1</span> <span class="c1">// error
+</span><span class="c1"></span><span class="k">val</span> <span class="o">+-*/</span><span class="nc">_xxx</span> <span class="k">=</span> <span class="mi">1</span> <span class="c1">// error
+</span><span class="c1"></span><span class="k">val</span> <span class="o">+-</span><span class="k">_</span><span class="o">*/</span> <span class="k">=</span> <span class="mi">1</span> <span class="c1">// error
+</span></code></pre></div><p>The precedence of an operator is determined by its first character.</p>
+<p>The following table lists the characters in increasing order of priority precedence:</p>
+<pre><code>(all letters)
+|
+^
+&amp;
+&lt; &gt;
+= !
+:
++ -
+* / %
+(all other special characters)
+</code></pre><h3 id="tempelate">Tempelate</h3>
+<p>We can generalize the definition using a type parameter:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// class
+</span><span class="c1"></span><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
+  <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span>
+<span class="o">}</span>
+<span class="k">class</span> <span class="nc">Empty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="nc">extends</span> <span class="nc">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+  <span class="err">…</span>
+<span class="o">}</span>
+<span class="k">class</span> <span class="nc">NonEmpty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">(</span><span class="n">elem</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">left</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">,</span> <span class="n">right</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+  <span class="err">…</span>
+<span class="o">}</span>
+
+<span class="c1">// fuction
+</span><span class="c1"></span><span class="k">def</span> <span class="n">singleton</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">(</span><span class="n">elem</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Empty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Empty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="o">)</span>
+<span class="n">singleton</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="n">singleton</span><span class="o">[</span><span class="kt">Boolean</span><span class="o">]</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</code></pre></div><p>In fact, the Scala compiler can usually deduce the correct type parameters from the value arguments of a function call.</p>
+<p>So, in most cases, type parameters can be left out. You could also write:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">singleton</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="n">singleton</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</code></pre></div><p>Type parameters are written in square brackets, e.g. [A].</p>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+
+	<a class="next-post" href="/blog/scala-class/"><img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			
+			<a href="#top">
+				<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+				<span>Back to Up</span>
+			</a>
+			
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=56ynm161q1y&amp;m=7&amp;s=100&amp;c=ff3c00&amp;t=1" async="async"></script>
+			</div>
+		</footer>
+		
+	</body>
+</html>
+
