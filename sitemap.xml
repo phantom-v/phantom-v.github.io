@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/scala-type/</loc>
+    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/scala-class/</loc>
+    <lastmod>2020-02-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/rep/rss-sdk/</loc>
     <lastmod>2020-01-25T00:00:00+00:00</lastmod>
   </url>
@@ -80,16 +90,6 @@
   <url>
     <loc>/about/</loc>
     <lastmod>2017-06-24T18:57:12+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/blog/scala-class/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/blog/scala-type/</loc>
-    <priority>0</priority>
   </url>
   
   <url>

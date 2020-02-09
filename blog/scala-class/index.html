@@ -4,11 +4,12 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="generator" content="Hugo 0.62.2" />
-		<title> - Phvntom</title>
+		<title>Scala: Class vs Case Class - Phvntom</title>
 
-		<meta name="description" content="Scala: Class vs Case Class What is Class Suppose we want to implement the addition of two rational numbers.
+		<meta name="description" content="What is Class Suppose we want to implement the addition of two rational numbers.
 def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
-A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:">
+A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:
+class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class implicitly introduces a constructor.">
 
 
 		
@@ -44,10 +45,10 @@ A better choice is to combine the numerator and denominator of a rational number
 <article>
 	<div id="subpage-padding">
 	<header><hgroup id="brand">
-	<h1></h1>
+	<h1>Scala: Class vs Case Class</h1>
 	<h5>
 		
-		<time datetime="0001-01-01 00:00:00 &#43;0000 UTC">Jan 01, 0001</time>
+		<time datetime="2020-02-07 00:00:00 &#43;0000 UTC">Feb 07, 2020</time>
 		<span class="no-print">
 			<span>
 	</h5>
@@ -56,8 +57,7 @@ A better choice is to combine the numerator and denominator of a rational number
 <hr class="sep" />
 
 </header>
-	<h1 id="scala-class-vs-case-class">Scala: Class vs Case Class</h1>
-<h2 id="what-is-class">What is Class</h2>
+	<h2 id="what-is-class">What is Class</h2>
 <p>Suppose we want to implement the addition of two rational numbers.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">addRationalNumerator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
 <span class="k">def</span> <span class="n">addRationalDenominator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
@@ -318,11 +318,11 @@ assert is used as to check the code of the function itself.</p>
 </article>
 <nav class="no-print post-nav">
 
-	<a class="prev-post" href="/blog/scala-type/">
-		<img class="icon-text" src="/img/prev.svg"/></a>
+	<a class="prev-post" href="/blog/xilinx-vc707/">
+		<img class="icon-text" src="/img/prev.svg"/>Xilinx Vc707 [NeedtoFill]</a>
 
 
-	<a class="next-post" href="/blog/make/">Learning Make<img class="icon-text" src="/img/next.svg"/>
+	<a class="next-post" href="/blog/scala-type/">Scala: Type<img class="icon-text" src="/img/next.svg"/>
 	</a>
 
 </nav>

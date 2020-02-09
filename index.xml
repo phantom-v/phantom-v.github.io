@@ -12,6 +12,29 @@
     
     
     <item>
+      <title>Scala: Type</title>
+      <link>/blog/scala-type/</link>
+      <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/scala-type/</guid>
+      <description>Identifier When use your own abstract data structure, there is a noticeable difference:
+ We write x + y, if x and y are integers, but We write r.add(s) if r and s are rational numbers.  In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:
+ Alphanumeric: starting with a letter, followed by a sequence of letters or numbers Symbolic: starting with an operator symbol, followed by other operator symbols.</description>
+    </item>
+    
+    <item>
+      <title>Scala: Class vs Case Class</title>
+      <link>/blog/scala-class/</link>
+      <pubDate>Fri, 07 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/scala-class/</guid>
+      <description>What is Class Suppose we want to implement the addition of two rational numbers.
+def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
+A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:
+class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class implicitly introduces a constructor.</description>
+    </item>
+    
+    <item>
       <title>RISC-V Spike Simulator SDK</title>
       <link>/rep/rss-sdk/</link>
       <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
@@ -125,28 +148,6 @@ $ git config --global user.name &amp;quot;runoob&amp;quot; $ git config --global
       <description>Makefile 的基本组成: target ... : prerequisites ... command ​target是一个目标文件, 可以是Object File, 执行文件, 或者标签; prerequisites是生成target所依赖的文件或目标; command是make需要执行的命令.
 Makefile的工作流程  默认的情况下, make会在当前目录下按顺序找寻文件为**“GNUmakefile” “makefile” “Makefile”**的文件 如果找到, 它会找文件中的第一个目标文件(target), 例如: 会找到edit, 并把这个文件作为最终的目标文件 如果edit文件不存在, 或是edit所依赖的后面的 .o 文件的文件修改时间要比edit这个文件新, 会执行后面所定义的命令来生成edit这个文件 如果edit所依赖的.o文件不存在, 那么make会在当前文件中找目标为.o文件的依赖性, 如果找到则再根据那一个规则生成.o文件 最终找到.c和.h文件，生成 .o 文件, 用于生成执行文件edit  例子:
 edit : main.o kbd.o command.o display.o \ insert.o search.o files.o utils.o cc -o edit main.o kbd.o command.o display.o \  insert.o search.o files.o utils.o # cc == gcc, cc is used in Unix main.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/scala-class/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/scala-class/</guid>
-      <description>Scala: Class vs Case Class What is Class Suppose we want to implement the addition of two rational numbers.
-def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
-A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/blog/scala-type/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/blog/scala-type/</guid>
-      <description>Scala: Type Identifier When use your own abstract data structure, there is a noticeable difference:
- We write x + y, if x and y are integers, but We write r.add(s) if r and s are rational numbers.  In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:
- Alphanumeric: starting with a letter, followed by a sequence of letters or numbers Symbolic: starting with an operator symbol, followed by other operator symbols.</description>
     </item>
     
   </channel>
