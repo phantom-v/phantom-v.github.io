@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on Phvntom</title>
-    <link>/about/</link>
+    <link>http://phvntom.tech/about/</link>
     <description>Recent content in About on Phvntom</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2020 phantom0308</copyright>
     <lastBuildDate>Sat, 24 Jun 2017 18:57:12 +0700</lastBuildDate>
     
-	<atom:link href="/about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://phvntom.tech/about/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

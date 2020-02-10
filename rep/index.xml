@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rep on Phvntom</title>
-    <link>/rep/</link>
+    <link>http://phvntom.tech/rep/</link>
     <description>Recent content in Rep on Phvntom</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2020 phantom0308</copyright>
     <lastBuildDate>Sun, 02 Jul 2017 08:15:25 +0700</lastBuildDate>
     
-	<atom:link href="/rep/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://phvntom.tech/rep/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>RISC-V Spike Simulator SDK</title>
-      <link>/rep/rss-sdk/</link>
+      <link>http://phvntom.tech/rep/rss-sdk/</link>
       <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/rep/rss-sdk/</guid>
+      <guid>http://phvntom.tech/rep/rss-sdk/</guid>
       <description>In the recent version of the riscv-tools and freedom-u-sdk, both of them removed the support of the spike simulator, and tutorials about running Linux on spike is using static compiled busybox, which is not suitable for real test environments. Spike is the simplest simulator of RISC-V, it has a very clear description of the instructions, you can apply your ideas and check it for a quick try. The RISC-V Spike Simulator SDK wants to help people to test design on Spike with real 64-bit Linux environment easily, the basic framework is based on Freedom U SDK version 1.</description>
     </item>
     

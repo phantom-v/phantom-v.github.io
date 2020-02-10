@@ -92,7 +92,7 @@
 + -
 * / %
 (all other special characters)
-</code></pre><h3 id="tempelate">Tempelate</h3>
+</code></pre><h2 id="tempelate">Tempelate</h2>
 <p>We can generalize the definition using a type parameter:</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// class
 </span><span class="c1"></span><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Set</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
@@ -114,12 +114,28 @@
 <p>So, in most cases, type parameters can be left out. You could also write:</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">singleton</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
 <span class="n">singleton</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</code></pre></div><h3 id="type-bounds">TYPE BOUNDS</h3>
+<pre><code class="language-Animal" data-lang="Animal">    ├── Reptile
+    └── Mammal
+        ├── Zebra
+        └── Giraffe
+</code></pre><p>Generally, the notation</p>
+<ul>
+<li>A &lt;: B means: A is a subtype of B, and</li>
+<li>A &gt;: B means: A is a supertype of B, or B is a subtype of A.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="c1">// Upper Bounds
+</span><span class="c1"></span><span class="k">def</span> <span class="n">selection</span><span class="o">[</span><span class="kt">A</span> <span class="k">&lt;:</span> <span class="kt">Animal</span><span class="o">]</span><span class="o">(</span><span class="n">a1</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">a2</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">a1</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">a2</span><span class="o">.</span><span class="n">fitness</span><span class="o">)</span> <span class="n">a1</span> <span class="k">else</span> <span class="n">a2</span>
+<span class="c1">// Lower Bounds A &gt;: Reptile
+</span><span class="c1"></span><span class="c1">// Mixed Bounds A &gt;: Zebra &lt;: Animal
+</span><span class="c1"></span><span class="err">`</span><span class="err">`</span><span class="err">`</span>
 </code></pre></div>
 	</div>
 </article>
 <nav class="no-print post-nav">
 
-	<a class="prev-post" href="/blog/scala-class/">
+	<a class="prev-post" href="http://phvntom.tech/blog/scala-class/">
 		<img class="icon-text" src="/img/prev.svg"/>Scala: Class vs Case Class</a>
 
 
@@ -174,12 +190,12 @@
 <a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
 
 
-<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+<a href="https://github.com/Phantom1003/" target="_blank"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
 
 
-<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+<a href="https://space.bilibili.com/5947453" target="_blank"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
 
-<a href="/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+<a href="http://phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
 
 				<p>
 					

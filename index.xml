@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Phvntom</title>
-    <link>/</link>
+    <link>http://phvntom.tech/</link>
     <description>Recent content in Home on Phvntom</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&amp;copy; 2020 phantom0308</copyright>
     <lastBuildDate>Sun, 04 Nov 2018 21:52:00 +0100</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://phvntom.tech/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Scala: Type</title>
-      <link>/blog/scala-type/</link>
+      <link>http://phvntom.tech/blog/scala-type/</link>
       <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/scala-type/</guid>
+      <guid>http://phvntom.tech/blog/scala-type/</guid>
       <description>Identifier When use your own abstract data structure, there is a noticeable difference:
  We write x + y, if x and y are integers, but We write r.add(s) if r and s are rational numbers.  In Scala, we can eliminate this difference because operators can be used as identifiers (Since function is a object). Thus, an identifier can be:
  Alphanumeric: starting with a letter, followed by a sequence of letters or numbers Symbolic: starting with an operator symbol, followed by other operator symbols.</description>
@@ -24,11 +24,11 @@
     
     <item>
       <title>Scala: Class vs Case Class</title>
-      <link>/blog/scala-class/</link>
+      <link>http://phvntom.tech/blog/scala-class/</link>
       <pubDate>Fri, 07 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/scala-class/</guid>
-      <description>What is Class Suppose we want to implement the addition of two rational numbers.
+      <guid>http://phvntom.tech/blog/scala-class/</guid>
+      <description>1 What is Class Suppose we want to implement the addition of two rational numbers.
 def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
 A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:
 class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class implicitly introduces a constructor.</description>
@@ -36,28 +36,28 @@ class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class
     
     <item>
       <title>RISC-V Spike Simulator SDK</title>
-      <link>/rep/rss-sdk/</link>
+      <link>http://phvntom.tech/rep/rss-sdk/</link>
       <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/rep/rss-sdk/</guid>
+      <guid>http://phvntom.tech/rep/rss-sdk/</guid>
       <description>In the recent version of the riscv-tools and freedom-u-sdk, both of them removed the support of the spike simulator, and tutorials about running Linux on spike is using static compiled busybox, which is not suitable for real test environments. Spike is the simplest simulator of RISC-V, it has a very clear description of the instructions, you can apply your ideas and check it for a quick try. The RISC-V Spike Simulator SDK wants to help people to test design on Spike with real 64-bit Linux environment easily, the basic framework is based on Freedom U SDK version 1.</description>
     </item>
     
     <item>
       <title>Xilinx Vc707 [NeedtoFill]</title>
-      <link>/blog/xilinx-vc707/</link>
+      <link>http://phvntom.tech/blog/xilinx-vc707/</link>
       <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/xilinx-vc707/</guid>
+      <guid>http://phvntom.tech/blog/xilinx-vc707/</guid>
       <description>Requirement $ git clone https://github.com/sifive/freedom.git $ cd freedom $ git submodule update --init --recursive sudo apt update sudo apt upgrade sudo apt-get install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev python wget sudo apt-get install default-jre # chisel echo &amp;#34;deb https://dl.bintray.com/sbt/debian /&amp;#34; | sudo tee -a /etc/apt/sources.list.d/sbt.list sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823 sudo apt-get update sudo apt-get install sbt sudo apt install scala # verilator sudo apt-get install git make autoconf g++ flex bison git clone http://git.</description>
     </item>
     
     <item>
       <title>GNU InLine Assembly </title>
-      <link>/blog/inline-asm/</link>
+      <link>http://phvntom.tech/blog/inline-asm/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/inline-asm/</guid>
+      <guid>http://phvntom.tech/blog/inline-asm/</guid>
       <description>内联汇编是指在 C/C++ 代码中嵌入的汇编代码, 与单纯的汇编源文件不同, 它被嵌入到 C/C++ 的大环境中. 用内联汇编的主要目的是为了提高效率: 假设有一个比较文本差异的程序 diff, 它花了 99% 的时间在 strcmp 这个函数上, 如果用内联汇编实现的一个高效的 strcmp 比用 C 语言实现的快 1 倍; 另一个目的就是为了实现 C 语言无法实现的部分, 比如 context switch 中需要直接对寄存器内容进行修改.
 格式 asm volatile ( &amp;#34;statements\n\t&amp;#34; : output_registers	// 非必需  : input_registers	// 非必需  : clobbered_registers ); // 非必需 Tips   汇编扩展以 asm (__asm_) 开头表示后面部分为汇编, 可选关键词 volatile (___volatile__) 表示严禁将此处的汇编语句和其他语句进行重组优化, 如果没有添加此关键字，则编译器可能会将某些汇编指令优化掉
   每条语句使用单独的 &amp;quot; &amp;quot; 包含, 多条语句间用 ; 或者 \n\t 分隔</description>
@@ -65,28 +65,28 @@ class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class
     
     <item>
       <title>Hifive Unleashed [NeedtoFill]</title>
-      <link>/blog/hifive-unleashed/</link>
+      <link>http://phvntom.tech/blog/hifive-unleashed/</link>
       <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/hifive-unleashed/</guid>
+      <guid>http://phvntom.tech/blog/hifive-unleashed/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Boot Linux on Spike [NeedtoFill]</title>
-      <link>/blog/spike-linux/</link>
+      <link>http://phvntom.tech/blog/spike-linux/</link>
       <pubDate>Sun, 10 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/spike-linux/</guid>
+      <guid>http://phvntom.tech/blog/spike-linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>About Spike</title>
-      <link>/blog/spike/</link>
+      <link>http://phvntom.tech/blog/spike/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/spike/</guid>
+      <guid>http://phvntom.tech/blog/spike/</guid>
       <description>Spike is a RISC-V ISA Simulator, which implements a functional model of one or more RISC-V processors. It is named after the golden spike used to celebrate the completion of the US transcontinental railway.
 Spike supports the following RISC-V ISA features:
  RV32I and RV64I base ISAs, v2.1 Zifencei extension, v2.0 Zicsr extension, v2.0 M extension, v2.0 A extension, v2.0 F extension, v2.2 D extension, v2.2 Q extension, v2.2 C extension, v2.</description>
@@ -94,30 +94,30 @@ Spike supports the following RISC-V ISA features:
     
     <item>
       <title>Advance GCC Programing Skill [Todo]</title>
-      <link>/blog/adv-gcc-skill/</link>
+      <link>http://phvntom.tech/blog/adv-gcc-skill/</link>
       <pubDate>Sat, 02 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/adv-gcc-skill/</guid>
+      <guid>http://phvntom.tech/blog/adv-gcc-skill/</guid>
       <description>_attribute_((noinline)) constant variable attribute __attribute__((noinline)) const int m = 1; The noinline variable attribute prevents the compiler from making any use of a constant data value for optimization purposes, without affecting its placement in the object.
 You can use this feature for patchable constants, that is, data that is later patched to a different value. It is an error to try to use such constants in a context where a constant value is required.</description>
     </item>
     
     <item>
       <title>Linker Relaxation</title>
-      <link>/blog/link-relax/</link>
+      <link>http://phvntom.tech/blog/link-relax/</link>
       <pubDate>Tue, 22 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/link-relax/</guid>
+      <guid>http://phvntom.tech/blog/link-relax/</guid>
       <description>Registers Assembler mnemonics for RISC-V integer and floating-point registers.
    Register ABI Name Description Caller/Callee     x0 zero Hard-wired zero    x1 ra Return address Caller   x2 sp Stack pointer Callee   x3 gp Global pointer    x4 tp Thread pointer    x5 t0 Temporary/alternate link register Caller   x6–x7 t1-t2 Temporaries Caller   x8 s0/fp Saved register/frame pointer Callee   x9 s1 Saved register Callee   x10–x11 a0-a1 Function arguments/return values Caller   x12–x17 a2-a7 Function arguments Caller   x18–x27 s2-s11 Saved registers Callee   x28–x31 t3-t6 Temporaries Caller         f0–f7 ft0-ft7 FP temporaries Caller   f8–f9 fs0-fs1 FP saved registers Callee   f10–f11 fa0-fa1 FP arguments/return values Caller   f12–f17 fa2-fa7 FP arguments Caller   f18–f27 fs2-fs11 FP saved registers Callee   f28–f31 ft8-ft11 FP temporaries Caller    Tips: how to print the preprocessor macros ?</description>
     </item>
     
     <item>
       <title>Learning ELF</title>
-      <link>/blog/elf/</link>
+      <link>http://phvntom.tech/blog/elf/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/elf/</guid>
+      <guid>http://phvntom.tech/blog/elf/</guid>
       <description>In computing, the Executable and Linkable Format (ELF, formerly called Extensible Linking Format) is a common standard file format for executables, object code, shared libraries, and core dumps.
 Unlike many proprietary executable file formats, ELF is very flexible and extensible, and it is not bound to any particular processor or Instruction set architecture|architecture. This has allowed it to be adopted by many different operating systems on many different platforms.
 ELF file layout Each ELF file is made up of one ELF header, followed by file data.</description>
@@ -125,10 +125,10 @@ ELF file layout Each ELF file is made up of one ELF header, followed by file dat
     
     <item>
       <title>Learning Git</title>
-      <link>/blog/git/</link>
+      <link>http://phvntom.tech/blog/git/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/git/</guid>
+      <guid>http://phvntom.tech/blog/git/</guid>
       <description>Git 配置 Git 提供了git config工具, 专门用来配置或读取相应的工作环境变量:
 这些环境变量决定了 Git 在各个环节的具体工作方式和行为:
   /etc/gitconfig 文件: 系统中对所有用户都普遍适用的配置. 若使用 git config 时用 --system 选项读写的就是这个文件.
@@ -141,10 +141,10 @@ $ git config --global user.name &amp;quot;runoob&amp;quot; $ git config --global
     
     <item>
       <title>Learning Make</title>
-      <link>/blog/make/</link>
+      <link>http://phvntom.tech/blog/make/</link>
       <pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/blog/make/</guid>
+      <guid>http://phvntom.tech/blog/make/</guid>
       <description>Makefile 的基本组成: target ... : prerequisites ... command ​target是一个目标文件, 可以是Object File, 执行文件, 或者标签; prerequisites是生成target所依赖的文件或目标; command是make需要执行的命令.
 Makefile的工作流程  默认的情况下, make会在当前目录下按顺序找寻文件为**“GNUmakefile” “makefile” “Makefile”**的文件 如果找到, 它会找文件中的第一个目标文件(target), 例如: 会找到edit, 并把这个文件作为最终的目标文件 如果edit文件不存在, 或是edit所依赖的后面的 .o 文件的文件修改时间要比edit这个文件新, 会执行后面所定义的命令来生成edit这个文件 如果edit所依赖的.o文件不存在, 那么make会在当前文件中找目标为.o文件的依赖性, 如果找到则再根据那一个规则生成.o文件 最终找到.c和.h文件，生成 .o 文件, 用于生成执行文件edit  例子:
 edit : main.o kbd.o command.o display.o \ insert.o search.o files.o utils.o cc -o edit main.o kbd.o command.o display.o \  insert.o search.o files.o utils.o # cc == gcc, cc is used in Unix main.</description>

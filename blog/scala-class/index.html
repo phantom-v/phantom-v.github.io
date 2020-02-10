@@ -6,7 +6,7 @@
 		<meta name="generator" content="Hugo 0.62.2" />
 		<title>Scala: Class vs Case Class - Phvntom</title>
 
-		<meta name="description" content="What is Class Suppose we want to implement the addition of two rational numbers.
+		<meta name="description" content="1 What is Class Suppose we want to implement the addition of two rational numbers.
 def addRationalNumerator(n1: Int, d1: Int, n2: Int, d2: Int): Int def addRationalDenominator(n1: Int, d1: Int, n2: Int, d2: Int): Int It would be difficult to manage all these numerators and denominators!
 A better choice is to combine the numerator and denominator of a rational number in a data structure by defining a class:
 class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class implicitly introduces a constructor.">
@@ -57,7 +57,7 @@ class Rational(x: Int, y: Int) { def numer = x def denom = y } In Scala, a class
 <hr class="sep" />
 
 </header>
-	<h2 id="what-is-class">What is Class</h2>
+	<h2 id="1-what-is-class">1 What is Class</h2>
 <p>Suppose we want to implement the addition of two rational numbers.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">addRationalNumerator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
 <span class="k">def</span> <span class="n">addRationalDenominator</span><span class="o">(</span><span class="n">n1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">n2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span>
@@ -152,7 +152,7 @@ assert is used as to check the code of the function itself.</p>
   <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div><p>No other Empty instances can be created. Singleton objects are values, so Empty <strong>evaluates to itself</strong>.</p>
-<h2 id="traits">TRAITS</h2>
+<h3 id="traits">TRAITS</h3>
 <p>In Scala, a class can only have one superclass. But what if a class has several natural supertypes to which it conforms or from which it wants to inherit code?</p>
 <p>A <code>trait</code> is declared like an abstract class, just with trait instead of abstract class.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Planar</span> <span class="o">{</span>
@@ -160,17 +160,17 @@ assert is used as to check the code of the function itself.</p>
   <span class="k">def</span> <span class="n">width</span><span class="k">:</span> <span class="kt">Int</span>
   <span class="k">def</span> <span class="n">surface</span> <span class="k">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
 <span class="o">}</span>
-</code></pre></div><p>Classes, objects and traits can inherit from at <code>most one class</code> but <code>arbitrary many traits</code>:</p>
+</code></pre></div><p>Classes, objects and traits can inherit from <code>at most one class</code> but <code>arbitrary many traits</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">Square</span> <span class="k">extends</span> <span class="nc">Shape</span> <span class="k">with</span> <span class="nc">Planar</span> <span class="k">with</span> <span class="nc">Movable</span> <span class="err">…</span>
 </code></pre></div><p><strong>On the other hand, traits cannot have (value) parameters, only classes can.</strong></p>
-<h2 id="equivalence">EQUIVALENCE</h2>
+<h3 id="equivalence">EQUIVALENCE</h3>
 <p>In Scala, two instance of a same class with same args are different.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
 <span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
 <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="c1">// false
 </span><span class="c1"></span><span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="n">x</span>
 <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="c1">// true
-</span></code></pre></div><h2 id="what-is-case-class">What is Case Class</h2>
+</span></code></pre></div><h2 id="2-what-is-case-class">2 What is Case Class</h2>
 <p>Programs are systems that process information. Therefore, programming languages provide ways to model the domain of a program.</p>
 <p>We use a <em>note</em> model to aggregate several data and express this in Scala by using a case class definition:</p>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">Note</span><span class="o">(</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">duration</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">octave</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
@@ -203,7 +203,7 @@ assert is used as to check the code of the function itself.</p>
 <span class="k">case</span> <span class="k">object</span> <span class="nc">A</span> <span class="k">extends</span> <span class="nc">NoteName</span>
 <span class="k">case</span> <span class="k">object</span> <span class="nc">A</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">NoteName</span>
 <span class="c1">// error: traits or objects may not have parameters
-</span></code></pre></div><h2 id="relationship-between-classes-and-case-classes">Relationship between Classes and Case Classes</h2>
+</span></code></pre></div><h2 id="3-relationship-between-classes-and-case-classes">3 Relationship between Classes and Case Classes</h2>
 <h3 id="creation-and-manipulation">CREATION AND MANIPULATION</h3>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">class</span> <span class="nc">BankAccount</span> <span class="o">{</span>
 
@@ -227,7 +227,7 @@ assert is used as to check the code of the function itself.</p>
 <span class="n">c3</span><span class="o">.</span><span class="n">name</span> <span class="c1">// C
 </span></code></pre></div><p>We see that creating a class instance requires the keyword new, whereas this is not required for case classes.</p>
 <p>Also, we see that the case class constructor parameters are promoted to members, whereas this is not the case with regular classes.</p>
-<h2 id="equality">EQUALITY</h2>
+<h3 id="equality">EQUALITY</h3>
 <div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">aliceAccount</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BankAccount</span>
 <span class="k">val</span> <span class="n">bobAccount</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BankAccount</span>
 
@@ -318,11 +318,11 @@ assert is used as to check the code of the function itself.</p>
 </article>
 <nav class="no-print post-nav">
 
-	<a class="prev-post" href="/blog/xilinx-vc707/">
+	<a class="prev-post" href="http://phvntom.tech/blog/xilinx-vc707/">
 		<img class="icon-text" src="/img/prev.svg"/>Xilinx Vc707 [NeedtoFill]</a>
 
 
-	<a class="next-post" href="/blog/scala-type/">Scala: Type<img class="icon-text" src="/img/next.svg"/>
+	<a class="next-post" href="http://phvntom.tech/blog/scala-type/">Scala: Type<img class="icon-text" src="/img/next.svg"/>
 	</a>
 
 </nav>
@@ -376,12 +376,12 @@ assert is used as to check the code of the function itself.</p>
 <a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
 
 
-<a href="https://github.com/Phantom1003/"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+<a href="https://github.com/Phantom1003/" target="_blank"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
 
 
-<a href="https://space.bilibili.com/5947453"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+<a href="https://space.bilibili.com/5947453" target="_blank"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
 
-<a href="/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+<a href="http://phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
 
 				<p>
 					
