@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Website - Phvntom</title>
+
+		<meta name="description" content="Vultr CentOS6 1GB Hugo build static website hugo -D server # view site on loacal loop hugo -D # generate website hugo new blog/xxx.md # create new page Upload webs to VPS together with SSL yum -y install httpd # copy pages to /var/www/html iptables -I INPUT -p TCP --dport 80 -j ACCEPT service iptables save service iptables restart service httpd start yum install php # install php yum install mod_ssl openssl # ssl certificate iptables -I INPUT -p TCP --dport 443 -j ACCEPT service iptables save service iptables restart mkdir /etc/httpd/conf/ssl.">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="/">Home</a></li><li><a href="/blog/">Blog</a></li><li><a href="/work">Work</a></li><li><a href="/rep">Rep</a></li><li><a href="/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Website</h1>
+	<h5>
+		
+		<time datetime="2020-02-11 13:46:24 &#43;0800 CST">Feb 11, 2020</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h1 id="vultr-centos6-1gb">Vultr CentOS6 1GB</h1>
+<h2 id="hugo-build-static-website">Hugo build static website</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">hugo -D server <span class="c1"># view site on loacal loop</span>
+hugo -D        <span class="c1"># generate website</span>
+hugo new blog/xxx.md <span class="c1"># create new page</span>
+</code></pre></div><h2 id="upload-webs-to-vps-together-with-ssl">Upload webs to VPS together with SSL</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">yum -y install httpd
+<span class="c1"># copy pages to /var/www/html</span>
+iptables -I INPUT -p TCP --dport <span class="m">80</span> -j ACCEPT
+service iptables save
+service iptables restart
+service httpd start
+
+yum install php <span class="c1"># install php</span>
+
+yum install mod_ssl openssl <span class="c1"># ssl certificate</span>
+
+iptables -I INPUT -p TCP --dport <span class="m">443</span> -j ACCEPT
+service iptables save
+service iptables restart
+
+mkdir /etc/httpd/conf/ssl.crt
+sudo vim /etc/httpd/conf/httpd.conf
+    SSLCertificateFile /etc/httpd/conf/ssl.crt/phvntom.tech_public.crt
+    SSLCertificateKeyFile /etc/httpd/conf/ssl.crt/phvntom.tech.key
+    SSLCertificateChainFile /etc/httpd/conf/ssl.crt/phvntom.tech_chain.crt
+
+service httpd restart
+chkconfig httpd on
+</code></pre></div><h2 id="mail-server">Mail Server</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">yum install postfix dovecot
+yum remove sendmail
+
+vim /etc/postfix/main.cf
+<span class="nv">myhostname</span> <span class="o">=</span> mail.phvntom.tech
+<span class="nv">mydomain</span> <span class="o">=</span> phvntom.tech
+<span class="nv">myorigin</span> <span class="o">=</span> <span class="nv">$mydomain</span>
+<span class="nv">inet_interfaces</span> <span class="o">=</span> all
+<span class="nv">mydestination</span> <span class="o">=</span> <span class="nv">$myhostname</span>, localhost.<span class="nv">$mydomain</span>, localhost, <span class="nv">$mydomain</span>
+<span class="nv">mynetworks</span> <span class="o">=</span> 192.168.0.0/24, 127.0.0.0/8 <span class="o">[</span>::1<span class="o">]</span>/128
+<span class="nv">home_mailbox</span> <span class="o">=</span> Maildir/
+
+<span class="nv">smtpd_sasl_auth_enable</span> <span class="o">=</span> yes 
+<span class="nv">smtpd_sasl_security_options</span> <span class="o">=</span> noanonymous 
+<span class="nv">smtpd_recipient_restrictions</span><span class="o">=</span>permit_mynetworks,permit_sasl_authenticated,reject_unauth_destination
+<span class="nv">smtpd_client_restrictions</span> <span class="o">=</span> permit_sasl_authenticated
+
+vim /etc/sysconfig/saslauthd
+
+<span class="nv">SOCKETDIR</span><span class="o">=</span>/var/run/saslauthd
+<span class="c1">#MECK= pam</span>
+<span class="nv">MECK</span> <span class="o">=</span> shadow
+
+service postfix start
+chkconfig postfix on
+service saslauthd restart
+chkconfig saslauthd on
+
+testsaslauthd -u hadoop -p hadoop
+
+yum install telnet
+telnet localhost smtp
+
+ehlo localhost
+
+auth login
+
+mail from: root
+rcpt to: admin
+
+data
+Test Email
+quit
+
+vim /etc/dovecot/dovecot.conf
+<span class="nv">protocols</span> <span class="o">=</span> imap pop3 lmtp
+
+vim /etc/dovecot/conf.d/10-mail.conf
+<span class="nv">mail_location</span> <span class="o">=</span> maildir:~/Maildir
+
+vim /etc/dovecot/conf.d/10-auth.conf
+<span class="nv">disable_plaintext_auth</span> <span class="o">=</span> no
+<span class="nv">auth_mechanisms</span> <span class="o">=</span> plain login
+
+vim /etc/dovecot/conf.d/10-master.conf
+in service auth / unix_listener auth-userdb
+    <span class="nv">mode</span> <span class="o">=</span> <span class="m">0600</span>
+    <span class="nv">user</span> <span class="o">=</span> postfix
+    <span class="nv">group</span> <span class="o">=</span> postfix
+
+service dovecot start
+chkconfig dovecot on
+
+user admin
+pass <span class="m">111111</span> 
+
+list
+retr <span class="m">1</span>
+quit
+
+yum install squirrelmail
+
+<span class="nb">cd</span> /usr/share/squirrelmail/config/
+./conf.pl
+
+Server Setting
+    Domian: phvntom.tech
+    sendmail or smtp: smtp
+
+vi /etc/httpd/conf/httpd.conf 
+
+Alias /squirrelmail /usr/share/squirrelmail
+&lt;Directory /usr/share/squirrelmail&gt;
+    Options Indexes FollowSymLinks
+    RewriteEngine On
+    AllowOverride All
+    DirectoryIndex index.php
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+</code></pre></div><h3 id="setup-iptable">Setup iptable</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># smtp, submission</span>
+iptables -A INPUT -p tcp --dport <span class="m">25</span> -j ACCEPT
+iptables -A INPUT -p tcp --dport <span class="m">587</span> -j ACCEPT
+<span class="c1"># pop3, pop3s</span>
+iptables -A INPUT -p tcp --dport <span class="m">110</span> -j ACCEPT
+iptables -A INPUT -p tcp --dport <span class="m">995</span> -j ACCEPT
+<span class="c1"># imap, imaps</span>
+iptables -A INPUT -p tcp --dport <span class="m">143</span> -j ACCEPT
+iptables -A INPUT -p tcp --dport <span class="m">993</span> -j ACCEPT
+iptables -A INPUT -p tcp --dport <span class="m">37</span> -j ACCEPT
+
+service iptables save
+service iptables restart
+service httpd start
+</code></pre></div><h2 id="log">Log</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tail /var/log/maillog
+</code></pre></div>
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="http://phvntom.tech/blog/idea-sbt/">
+		<img class="icon-text" src="/img/prev.svg"/>Using sbt to build a Scala project in IntelliJ IDEA</a>
+
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			
+			<a href="#top">
+				<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+				<span>Back to Up</span>
+			</a>
+			
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/" target="_blank"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453" target="_blank"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="http://phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=56ynm161q1y&amp;m=7&amp;s=100&amp;c=ff3c00&amp;t=1" async="async"></script>
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

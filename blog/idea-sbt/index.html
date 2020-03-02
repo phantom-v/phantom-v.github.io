@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.62.2" />
+		<title>Using sbt to build a Scala project in IntelliJ IDEA - Phvntom</title>
+
+		<meta name="description" content="Run Scala program with bash $ cat HelloWorld.scala object HelloWorld { def main(args: Array[String]): Unit = { println(&#34;Hello, world!&#34;) } } $ scalac HelloWorld.scala $ scala HelloWorld Create project with sbt $ sbt new scala/hello-world.g8 Create Scala Project in IntelliJ IDEA 1 Install Scala plugin Configure -&gt; Plugins -&gt; Find &ldquo;Scala&rdquo; and install
+ If can not display the plugins, you can download from https://plugins.jetbrains.com/ The Plugin version should be same as IntelliJ IDEA  2 Creating the Project Open up IntelliJ and click File =&gt; New =&gt; Project">
+
+
+		
+		<link rel="shortcut icon" href="/img/favicon.png">
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li><a href="/">Home</a></li><li><a href="/blog/">Blog</a></li><li><a href="/work">Work</a></li><li><a href="/rep">Rep</a></li><li><a href="/about">About</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<div id="subpage-padding">
+	<header><hgroup id="brand">
+	<h1>Using sbt to build a Scala project in IntelliJ IDEA</h1>
+	<h5>
+		
+		<time datetime="2020-02-10 19:48:33 &#43;0800 CST">Feb 10, 2020</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+
+</header>
+	<h1 id="run-scala-program-with-bash">Run Scala program with bash</h1>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ cat HelloWorld.scala
+object HelloWorld <span class="o">{</span>
+    def main<span class="o">(</span>args: Array<span class="o">[</span>String<span class="o">]</span><span class="o">)</span>: <span class="nv">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        println<span class="o">(</span><span class="s2">&#34;Hello, world!&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+$ scalac HelloWorld.scala  
+$ scala HelloWorld 
+</code></pre></div><h2 id="create-project-with-sbt">Create project with sbt</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ sbt new scala/hello-world.g8
+</code></pre></div><h1 id="create-scala-project-in-intellij-idea">Create Scala Project in IntelliJ IDEA</h1>
+<h2 id="1-install-scala-plugin">1 Install Scala plugin</h2>
+<p>Configure -&gt; Plugins -&gt; Find &ldquo;Scala&rdquo; and install</p>
+<ul>
+<li>If can not display the plugins, you can download from <a href="https://plugins.jetbrains.com/">https://plugins.jetbrains.com/</a></li>
+<li>The Plugin version should be same as IntelliJ IDEA</li>
+</ul>
+<h2 id="2-creating-the-project">2 Creating the Project</h2>
+<p>Open up IntelliJ and click File =&gt; New =&gt; Project<br>
+On the left panel, select <strong>Scala</strong>. On the right panel, select <strong>IDEA</strong>.<br>
+Name the project HelloWorld. Click the Create button at the right of the Scala SDK field to install a Scala SDK.<br>
+Once the SDK is created and you’re back to the “New Project” window click Finish.</p>
+<h2 id="3-run-the-project">3 Run the Project</h2>
+<p>On the Project pane on the left, right-click <code>src</code> and select <code>New</code> =&gt; <code>Scala class</code>.</p>
+<ul>
+<li>If you don’t see Scala class, right-click on HelloWorld and click on Add Framework Support…, select Scala and proceed.</li>
+</ul>
+<p>Name the class Hello and change the code in the class to the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Hello</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><p>Right click on Hello in your code and select Run ‘Hello’.</p>
+<p>A good way to try out code samples is with Scala Worksheets</p>
+<p>In the project pane on the left, right click <code>src</code> and select <code>New</code> =&gt; <code>Scala Worksheet</code>.
+Name your new Scala worksheet “Mathematician”.
+Enter the following code into the worksheet:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">square</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+<span class="n">square</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div><p>As you change your code, you’ll notice that it gets evaluated in the right pane. It looks like the <code>scala</code> interactive shell in bash.</p>
+<ul>
+<li>If you do not see a right pane, right click on your Scala worksheet in the Project pane, and click on Evaluate Worksheet.</li>
+</ul>
+<h1 id="create-scala-project-with-intellij-idea-and-sbt">Create Scala Project with IntelliJ IDEA and sbt</h1>
+<h2 id="1-creating-the-project">1 Creating the project</h2>
+<p>Open up IntelliJ and select “Create New Project”<br>
+On the left panel, select <code>Scala</code> and on the right panel, select <code>sbt</code>
+Click Next<br>
+Name the project “SbtExample”</p>
+<ul>
+<li>You should install Scala plugin first</li>
+<li>If you already created the project on the command line, open up IntelliJ, select <code>Import Project</code> and open the <code>build.sbt</code> file for your project</li>
+<li>Make sure the JDK version is 1.8 and the sbt version is at least 0.13.13</li>
+<li>Select Use auto-import so dependencies are automatically downloaded when available</li>
+</ul>
+<p>Select Finish</p>
+<p>sbt creates many directories which can be useful once you start building more complex projects, here’s a glance at what everything is for:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">- .idea <span class="o">(</span>IntelliJ files<span class="o">)</span>
+- project <span class="o">(</span>plugins and additional settings <span class="k">for</span> sbt<span class="o">)</span>
+- src <span class="o">(</span><span class="nb">source</span> files<span class="o">)</span>
+    - main <span class="o">(</span>application code<span class="o">)</span>
+        - java <span class="o">(</span>Java <span class="nb">source</span> files<span class="o">)</span>
+        - scala <span class="o">(</span>Scala <span class="nb">source</span> files<span class="o">)</span> &lt;-- This is all we need <span class="k">for</span> now
+        - scala-2.12 <span class="o">(</span>Scala 2.12 specific files<span class="o">)</span>
+    - <span class="nb">test</span> <span class="o">(</span>unit tests<span class="o">)</span>
+- target <span class="o">(</span>generated files<span class="o">)</span>
+- build.sbt <span class="o">(</span>build definition file <span class="k">for</span> sbt<span class="o">)</span>
+</code></pre></div><h2 id="2-run-the-project">2 Run the Project</h2>
+<p>On the Project panel on the left, expand SbtExampleProject =&gt; src =&gt; main<br>
+Right-click scala and select New =&gt; <strong>Package</strong><br>
+Name the package <code>example</code> and click OK<br>
+Right-click the package <code>example</code> and select New =&gt; <code>Scala class</code><br>
+Name the class <code>Main</code> and change the code in the class to the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">Main</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">ages</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="mi">42</span><span class="o">,</span> <span class="mi">75</span><span class="o">,</span> <span class="mi">29</span><span class="o">,</span> <span class="mi">64</span><span class="o">)</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">s&#34;</span><span class="s">The oldest person is </span><span class="si">${</span><span class="n">ages</span><span class="o">.</span><span class="n">max</span><span class="si">}</span><span class="s">&#34;</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div><p>From the Run menu, select <code>Edit configurations</code> Click the <code>+</code> button and select <code>sbt Task</code> <br>
+Name it <code>Run the program</code><br>
+In the <strong>Tasks</strong> field, type <code>~run</code>. The <code>~</code> causes sbt to rebuild and rerun the project when you save changes to a file in the project. Click OK.<br>
+On the Run menu. Click Run <code>Run the program</code></p>
+<h2 id="3-adding-a-dependency">3 Adding a dependency</h2>
+<p>Open up <code>build.sbt</code> and add the following line:</p>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">&#34;org.scala-lang.modules&#34;</span> <span class="o">%%</span> <span class="s">&#34;scala-parser-combinators&#34;</span> <span class="o">%</span> <span class="s">&#34;1.1.2&#34;</span>
+</code></pre></div><p>Here, <code>libraryDependencies</code> is a set of dependencies, and by using <code>+=</code>, we’re adding the <code>scala-parser-combinators</code> dependency to the set of dependencies that sbt will go and fetch when it starts up.</p>
+<p>Now, in any Scala file, you can import classes, objects, etc, from scala-parser-combinators with a regular import.</p>
+
+	</div>
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="http://phvntom.tech/blog/scala-type/">
+		<img class="icon-text" src="/img/prev.svg"/>Scala: Type</a>
+
+
+	<a class="next-post" href="http://phvntom.tech/blog/website/">Website<img class="icon-text" src="/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+	
+
+<script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="url"
+        label=""
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+	<div id="disqus_thread" class="no-print"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'phantom';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			
+			<a href="#top">
+				<img class="icon-text" src="/img/toup.svg" alt="To Up"/>
+				<span>Back to Up</span>
+			</a>
+			
+			<div class="u-footer">
+				
+<a href="mailto:phantom0308@zju.edu.cn"><img class="icon-social" src="/img/email.svg" alt="Email"/></a>
+
+
+<a href="https://github.com/Phantom1003/" target="_blank"><img class="icon-social" src="/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://space.bilibili.com/5947453" target="_blank"><img class="icon-social" src="/img/bilibili.svg" alt="Bilibili"/></a>
+
+<a href="http://phvntom.tech/index.xml" target="_blank"><img class="icon-social" src="/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					&copy; 2020 phantom0308
+					
+					
+				</p>
+				<script type="text/javascript" src="//rf.revolvermaps.com/0/0/2.js?i=56ynm161q1y&amp;m=7&amp;s=100&amp;c=ff3c00&amp;t=1" async="async"></script>
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

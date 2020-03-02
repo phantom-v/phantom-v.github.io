@@ -12,6 +12,25 @@
     
     
     <item>
+      <title>Website</title>
+      <link>http://phvntom.tech/blog/website/</link>
+      <pubDate>Tue, 11 Feb 2020 13:46:24 +0800</pubDate>
+      
+      <guid>http://phvntom.tech/blog/website/</guid>
+      <description>Vultr CentOS6 1GB Hugo build static website hugo -D server # view site on loacal loop hugo -D # generate website hugo new blog/xxx.md # create new page Upload webs to VPS together with SSL yum -y install httpd # copy pages to /var/www/html iptables -I INPUT -p TCP --dport 80 -j ACCEPT service iptables save service iptables restart service httpd start yum install php # install php yum install mod_ssl openssl # ssl certificate iptables -I INPUT -p TCP --dport 443 -j ACCEPT service iptables save service iptables restart mkdir /etc/httpd/conf/ssl.</description>
+    </item>
+    
+    <item>
+      <title>Using sbt to build a Scala project in IntelliJ IDEA</title>
+      <link>http://phvntom.tech/blog/idea-sbt/</link>
+      <pubDate>Mon, 10 Feb 2020 19:48:33 +0800</pubDate>
+      
+      <guid>http://phvntom.tech/blog/idea-sbt/</guid>
+      <description>Run Scala program with bash $ cat HelloWorld.scala object HelloWorld { def main(args: Array[String]): Unit = { println(&amp;#34;Hello, world!&amp;#34;) } } $ scalac HelloWorld.scala $ scala HelloWorld Create project with sbt $ sbt new scala/hello-world.g8 Create Scala Project in IntelliJ IDEA 1 Install Scala plugin Configure -&amp;gt; Plugins -&amp;gt; Find &amp;ldquo;Scala&amp;rdquo; and install
+ If can not display the plugins, you can download from https://plugins.jetbrains.com/ The Plugin version should be same as IntelliJ IDEA  2 Creating the Project Open up IntelliJ and click File =&amp;gt; New =&amp;gt; Project</description>
+    </item>
+    
+    <item>
       <title>Scala: Type</title>
       <link>http://phvntom.tech/blog/scala-type/</link>
       <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
